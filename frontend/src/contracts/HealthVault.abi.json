@@ -1,0 +1,214 @@
+[
+  {
+    "type": "event",
+    "name": "PatientRegistered",
+    "inputs": [
+      { "name": "patient", "type": "address", "indexed": true },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "ProviderRegistered",
+    "inputs": [
+      { "name": "provider", "type": "address", "indexed": true },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "AccessGranted",
+    "inputs": [
+      { "name": "patient", "type": "address", "indexed": true },
+      { "name": "provider", "type": "address", "indexed": true },
+      { "name": "category", "type": "uint8", "indexed": true },
+      { "name": "level", "type": "uint8", "indexed": false },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "AccessRevoked",
+    "inputs": [
+      { "name": "patient", "type": "address", "indexed": true },
+      { "name": "provider", "type": "address", "indexed": true },
+      { "name": "category", "type": "uint8", "indexed": true },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "RecordAdded",
+    "inputs": [
+      { "name": "patient", "type": "address", "indexed": true },
+      { "name": "addedBy", "type": "address", "indexed": true },
+      { "name": "category", "type": "uint8", "indexed": true },
+      { "name": "cid", "type": "string", "indexed": false },
+      { "name": "dataHash", "type": "bytes32", "indexed": false },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "RecordUpdated",
+    "inputs": [
+      { "name": "patient", "type": "address", "indexed": true },
+      { "name": "updatedBy", "type": "address", "indexed": true },
+      { "name": "category", "type": "uint8", "indexed": true },
+      { "name": "oldCid", "type": "string", "indexed": false },
+      { "name": "newCid", "type": "string", "indexed": false },
+      { "name": "newDataHash", "type": "bytes32", "indexed": false },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "RecordAccessed",
+    "inputs": [
+      { "name": "patient", "type": "address", "indexed": true },
+      { "name": "accessor", "type": "address", "indexed": true },
+      { "name": "category", "type": "uint8", "indexed": true },
+      { "name": "timestamp", "type": "uint64", "indexed": false }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "registerPatient",
+    "stateMutability": "nonpayable",
+    "inputs": [{ "name": "eciesPublicKey", "type": "string" }],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "registerProvider",
+    "stateMutability": "nonpayable",
+    "inputs": [{ "name": "eciesPublicKey", "type": "string" }],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "isPatientRegistered",
+    "stateMutability": "view",
+    "inputs": [{ "name": "patient", "type": "address" }],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "type": "function",
+    "name": "getPatientPublicKey",
+    "stateMutability": "view",
+    "inputs": [{ "name": "patient", "type": "address" }],
+    "outputs": [{ "name": "", "type": "string" }]
+  },
+  {
+    "type": "function",
+    "name": "getProviderPublicKey",
+    "stateMutability": "view",
+    "inputs": [{ "name": "provider", "type": "address" }],
+    "outputs": [{ "name": "", "type": "string" }]
+  },
+  {
+    "type": "function",
+    "name": "grantAccess",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "provider", "type": "address" },
+      { "name": "category", "type": "uint8" },
+      { "name": "level", "type": "uint8" },
+      { "name": "providerWrappedDEK", "type": "string" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "revokeAccess",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "provider", "type": "address" },
+      { "name": "category", "type": "uint8" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "getAccessLevel",
+    "stateMutability": "view",
+    "inputs": [
+      { "name": "patient", "type": "address" },
+      { "name": "provider", "type": "address" },
+      { "name": "category", "type": "uint8" }
+    ],
+    "outputs": [{ "name": "", "type": "uint8" }]
+  },
+  {
+    "type": "function",
+    "name": "getProviderWrappedDEK",
+    "stateMutability": "view",
+    "inputs": [
+      { "name": "patient", "type": "address" },
+      { "name": "provider", "type": "address" },
+      { "name": "category", "type": "uint8" }
+    ],
+    "outputs": [{ "name": "", "type": "string" }]
+  },
+  {
+    "type": "function",
+    "name": "listGrantsForPatient",
+    "stateMutability": "view",
+    "inputs": [{ "name": "patient", "type": "address" }],
+    "outputs": [
+      { "name": "providers", "type": "address[]" },
+      { "name": "categories", "type": "uint8[]" },
+      { "name": "levels", "type": "uint8[]" },
+      { "name": "grantedAts", "type": "uint64[]" }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "addRecord",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "patient", "type": "address" },
+      { "name": "category", "type": "uint8" },
+      { "name": "cid", "type": "string" },
+      { "name": "dataHash", "type": "bytes32" },
+      { "name": "encryptedDEK", "type": "string" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateRecord",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "patient", "type": "address" },
+      { "name": "category", "type": "uint8" },
+      { "name": "newCid", "type": "string" },
+      { "name": "newDataHash", "type": "bytes32" },
+      { "name": "newEncryptedDEK", "type": "string" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "getRecord",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "patient", "type": "address" },
+      { "name": "category", "type": "uint8" }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          { "name": "cid", "type": "string" },
+          { "name": "dataHash", "type": "bytes32" },
+          { "name": "encryptedDEK", "type": "string" },
+          { "name": "createdAt", "type": "uint64" },
+          { "name": "updatedAt", "type": "uint64" },
+          { "name": "lastModifiedBy", "type": "address" }
+        ]
+      }
+    ]
+  }
+]
