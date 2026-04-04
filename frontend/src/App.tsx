@@ -17,19 +17,35 @@ import React from 'react'
 import { useWallet } from './hooks/useWallet'
 
 export default function App() {
-  const { isConnected, shortAddress, connect, wrongNetwork, switchNetwork, isConnecting, connectError } = useWallet()
+  const { isConnected, shortAddress, connect, wrongNetwork, switchNetwork, isConnecting, connectError, expectedChainId, chainId } = useWallet()
+
+  const NETWORK_NAMES: Record<number, string> = {
+    31337: 'Hardhat Local (localhost:8545)',
+    11155111: 'Sepolia Testnet',
+    1: 'Ethereum Mainnet',
+  }
 
   if (wrongNetwork) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <p className="text-lg font-semibold">Wrong network</p>
+        <div className="text-center max-w-sm">
+          <p className="text-lg font-semibold">Wrong Network</p>
+          <p className="mt-2 text-sm text-gray-500">
+            You&apos;re on chain {chainId}. This app requires{' '}
+            <strong>{NETWORK_NAMES[expectedChainId] ?? `chain ${expectedChainId}`}</strong>.
+          </p>
           <button
-            onClick={switchNetwork}
+            onClick={() => void switchNetwork()}
             className="mt-4 rounded bg-blue-600 px-4 py-2 text-white"
           >
             Switch Network
           </button>
+          {expectedChainId === 31337 && (
+            <p className="mt-3 text-xs text-gray-400">
+              Make sure your local Hardhat node is running:{' '}
+              <code className="bg-gray-100 px-1 rounded">npx hardhat node</code>
+            </p>
+          )}
         </div>
       </div>
     )
