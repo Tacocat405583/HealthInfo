@@ -1,5 +1,4 @@
-import { Activity, Calendar, FileText, MessageSquare, Pill, Home, TestTube, StickyNote } from 'lucide-react';
-import { useState } from 'react';
+import { Calendar, FileText, MessageSquare, Pill, Home, TestTube, StickyNote } from 'lucide-react';
 
 const menuItems = [
   { icon: Home, label: 'Dashboard', id: 'dashboard' },
@@ -9,7 +8,6 @@ const menuItems = [
   { icon: StickyNote, label: 'Notes', id: 'notes' },
   { icon: Pill, label: 'Medications', id: 'medications' },
   { icon: FileText, label: 'Medical Records', id: 'records' },
-  { icon: Activity, label: 'Health Tracking', id: 'tracking' },
 ];
 
 interface SidebarProps {

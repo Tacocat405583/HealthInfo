@@ -7,6 +7,7 @@ import { TestResults } from './components/TestResults';
 import { Messages } from './components/Messages';
 import { Medications } from './components/Medications';
 import { Notes } from './components/Notes';
+import { MedicalRecords } from './components/MedicalRecords';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -26,29 +27,7 @@ export default function App() {
       case 'medications':
         return <Medications />;
       case 'records':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-foreground mb-2">Medical Records</h2>
-              <p className="text-muted-foreground">Access your complete medical history</p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-12 text-center">
-              <p className="text-muted-foreground">Medical records feature coming soon...</p>
-            </div>
-          </div>
-        );
-      case 'tracking':
-        return (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-foreground mb-2">Health Tracking</h2>
-              <p className="text-muted-foreground">Monitor your health metrics over time</p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-12 text-center">
-              <p className="text-muted-foreground">Health tracking feature coming soon...</p>
-            </div>
-          </div>
-        );
+        return <MedicalRecords />;
       default:
         return <Dashboard />;
     }
