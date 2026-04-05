@@ -1,4 +1,5 @@
-import { AlertCircle, Clock, Pill, RefreshCw } from 'lucide-react';
+import { AlertCircle, Pill, RefreshCw } from 'lucide-react';
+import { RecordAIPanel } from '../../ai/RecordAIPanel';
 
 export function Medications() {
   const medications = [
@@ -71,69 +72,74 @@ export function Medications() {
       </div>
 
       <div className="space-y-4">
-        {medications.map((med, index) => (
-          <div key={index} className="bg-card border border-border rounded-xl p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Pill className="w-6 h-6 text-primary" />
+        {medications.map((med, index) => {
+          const context = [
+            `Medication: ${med.name} ${med.dosage}`,
+            `Frequency: ${med.frequency}`,
+            `Instructions: ${med.instructions}`,
+            `Prescribed by: ${med.prescribedBy}`,
+            `Start date: ${med.startDate}`,
+          ].join('\n');
+
+          return (
+            <div key={index} className="bg-card border border-border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Pill className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-foreground mb-1">{med.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-2">{med.dosage} - {med.frequency}</p>
+                    <p className="text-xs text-muted-foreground">Prescribed by {med.prescribedBy}</p>
+                  </div>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs ${
+                  med.refillsLeft <= 1
+                    ? 'bg-destructive/10 text-destructive'
+                    : 'bg-primary/10 text-primary'
+                }`}>
+                  {med.refillsLeft} refills left
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted rounded-lg mb-4">
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">Started</p>
+                  <p className="text-sm text-foreground">{med.startDate}</p>
                 </div>
                 <div>
-                  <h3 className="text-foreground mb-1">{med.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-2">{med.dosage} - {med.frequency}</p>
-                  <p className="text-xs text-muted-foreground">Prescribed by {med.prescribedBy}</p>
+                  <p className="text-xs text-muted-foreground mb-1">Next Refill</p>
+                  <p className="text-sm text-foreground">{med.nextRefill}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">Instructions</p>
+                  <p className="text-sm text-foreground">{med.instructions}</p>
                 </div>
               </div>
-              <div className={`px-3 py-1 rounded-full text-xs ${
-                med.refillsLeft <= 1
-                  ? 'bg-destructive/10 text-destructive'
-                  : 'bg-primary/10 text-primary'
-              }`}>
-                {med.refillsLeft} refills left
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted rounded-lg mb-4">
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Started</p>
-                <p className="text-sm text-foreground">{med.startDate}</p>
+              <div className="flex gap-2 mb-4">
+                <button className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity">
+                  Request Refill
+                </button>
+                <button className="px-4 py-2 border border-border text-foreground rounded-lg hover:bg-accent transition-colors">
+                  Set Reminder
+                </button>
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Next Refill</p>
-                <p className="text-sm text-foreground">{med.nextRefill}</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Instructions</p>
-                <p className="text-sm text-foreground">{med.instructions}</p>
-              </div>
-            </div>
 
-            <div className="flex gap-2">
-              <button className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity">
-                Request Refill
-              </button>
-              <button className="px-4 py-2 border border-border text-foreground rounded-lg hover:bg-accent transition-colors">
-                Set Reminder
-              </button>
+              {/* AI Panel — explain this medication to the patient */}
+              <RecordAIPanel
+                key={index}
+                id={index}
+                label={med.name}
+                mode="medication"
+                context={context}
+              />
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <div className="bg-gradient-to-br from-secondary to-primary rounded-xl p-6 text-white">
-        <div className="flex items-start gap-4">
-          <Clock className="w-12 h-12 flex-shrink-0 text-white/80" />
-          <div>
-            <h3 className="mb-2">Medication Reminders</h3>
-            <p className="text-white/90 mb-4">
-              Never miss a dose! Set up automatic reminders to take your medications on time.
-            </p>
-            <button className="px-4 py-2 bg-white text-primary rounded-lg hover:shadow-lg transition-shadow">
-              Set up reminders
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
