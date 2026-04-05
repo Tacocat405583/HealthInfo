@@ -190,7 +190,9 @@ interface AppContextType {
   addMedicationRequest: (request: Omit<MedicationRequest, 'id' | 'createdAt' | 'status'>) => void;
   updateMedicationRequest: (id: string, status: 'approved' | 'denied', denialReason?: string) => void;
   updatePatientName: (patientId: string, name: string) => void;
+  addPatientByAddress: (address: string, name: string, doctorId: string) => boolean;
   requestPatientAccess: (doctorId: string, patientId: string, reason: string) => void;
+  grantAccessDirectly: (doctorId: string, patientId: string) => void;
   respondToPatientAccess: (requestId: string, status: 'approved' | 'denied') => void;
   revokePatientAccess: (requestId: string) => void;
   getPatientAccessStatus: (doctorId: string, patientId: string) => 'none' | 'pending' | 'approved' | 'denied' | 'revoked';
@@ -366,6 +368,59 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const addPatientByAddress = (walletAddress: string, name: string, doctorId: string): boolean => {
+    const normalised = walletAddress.trim().toLowerCase();
+    const all = [...DEMO_PATIENTS, ...registeredPatients];
+    // Already on this doctor's roster?
+    const existing = all.find((p) => p.address.toLowerCase() === normalised);
+    if (existing) {
+      if (existing.doctors.includes(doctorId)) return false; // already added
+      // Add doctor to existing patient
+      setRegisteredPatients((prev) => {
+        const updated = prev.map((p) =>
+          p.address.toLowerCase() === normalised
+            ? { ...p, doctors: [...p.doctors, doctorId] }
+            : p
+        );
+        saveStoredPatients(updated);
+        return updated;
+      });
+      return true;
+    }
+    // New patient entry
+    const newPatient: Patient = {
+      id: walletAddress.trim(),
+      name: name.trim() || shortAddress(walletAddress.trim()),
+      lastVisit: 'Unknown',
+      doctors: [doctorId],
+      address: walletAddress.trim(),
+    };
+    setRegisteredPatients((prev) => {
+      const updated = [...prev, newPatient];
+      saveStoredPatients(updated);
+      return updated;
+    });
+    return true;
+  };
+
+  const grantAccessDirectly = (doctorId: string, patientId: string) => {
+    const doctor = DOCTORS.find((d) => d.id === doctorId);
+    const patient = [...DEMO_PATIENTS, ...registeredPatients].find((p) => p.id === patientId);
+    if (!doctor || !patient) return;
+    const req: PatientAccessRequest = {
+      id: `pac_${Date.now()}`,
+      doctorId,
+      doctorName: doctor.name,
+      doctorSpecialty: doctor.specialty,
+      patientId,
+      patientName: patient.name,
+      reason: 'Granted directly by patient',
+      status: 'approved',
+      createdAt: new Date().toISOString(),
+    };
+    setPatientAccessRequests((prev) => [...prev, req]);
+  };
+
   const requestPatientAccess = (doctorId: string, patientId: string, reason: string) => {
     const doctor = DOCTORS.find((d) => d.id === doctorId);
     const patient = [...DEMO_PATIENTS, ...registeredPatients].find((p) => p.id === patientId);
@@ -475,7 +530,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         addMedicationRequest,
         updateMedicationRequest,
         updatePatientName,
+        addPatientByAddress,
         requestPatientAccess,
+        grantAccessDirectly,
         respondToPatientAccess,
         revokePatientAccess,
         getPatientAccessStatus,

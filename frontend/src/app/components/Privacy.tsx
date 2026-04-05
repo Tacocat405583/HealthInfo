@@ -1,10 +1,22 @@
-import { CheckCircle, Clock, ShieldCheck, ShieldX, User, XCircle, ShieldOff } from 'lucide-react';
+import { CheckCircle, Clock, ShieldCheck, ShieldX, User, XCircle, ShieldOff, Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useWallet } from '../../hooks/useWallet';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from './ui/dialog';
+import { Button } from './ui/button';
 
 export function Privacy() {
   const { address, isConnected } = useWallet();
-  const { currentPatientId, patientAccessRequests, respondToPatientAccess, revokePatientAccess, doctors } = useApp();
+  const { currentPatientId, patientAccessRequests, respondToPatientAccess, revokePatientAccess, grantAccessDirectly, doctors } = useApp();
+  const [showGrantDialog, setShowGrantDialog] = useState(false);
+  const [selectedDoctorId, setSelectedDoctorId] = useState('');
 
   if (!isConnected || !address) {
     return (
@@ -99,10 +111,20 @@ export function Privacy() {
 
       {/* Approved providers */}
       <div className="space-y-3">
-        <h3 className="text-foreground font-semibold flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-primary" />
-          Providers with Access
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-foreground font-semibold flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-primary" />
+            Providers with Access
+          </h3>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => { setSelectedDoctorId(''); setShowGrantDialog(true); }}
+          >
+            <Plus className="w-3.5 h-3.5 mr-1.5" />
+            Grant Access
+          </Button>
+        </div>
 
         {approvedRequests.length === 0 ? (
           <div className="bg-card border border-border rounded-xl p-8 text-center">
@@ -172,6 +194,63 @@ export function Privacy() {
           provider view records shared with them. You can be asked again after a denial.
         </p>
       </div>
+
+      {/* Grant access dialog */}
+      <Dialog open={showGrantDialog} onOpenChange={setShowGrantDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Grant Provider Access</DialogTitle>
+            <DialogDescription>
+              Select a provider to grant them access to your records directly,
+              without waiting for them to send a request.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2 space-y-2">
+            {doctors
+              .filter((d) => !approvedRequests.some((r) => r.doctorId === d.id))
+              .map((doctor) => (
+                <button
+                  key={doctor.id}
+                  onClick={() => setSelectedDoctorId(doctor.id)}
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left ${
+                    selectedDoctorId === doctor.id
+                      ? 'border-primary bg-primary/5'
+                      : 'border-border hover:bg-accent'
+                  }`}
+                >
+                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{doctor.name}</p>
+                    <p className="text-xs text-muted-foreground">{doctor.specialty}</p>
+                  </div>
+                  {selectedDoctorId === doctor.id && (
+                    <CheckCircle className="w-4 h-4 text-primary ml-auto" />
+                  )}
+                </button>
+              ))}
+            {doctors.filter((d) => !approvedRequests.some((r) => r.doctorId === d.id)).length === 0 && (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                All known providers already have access.
+              </p>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowGrantDialog(false)}>Cancel</Button>
+            <Button
+              disabled={!selectedDoctorId}
+              onClick={() => {
+                if (!selectedDoctorId || !currentPatientId) return;
+                grantAccessDirectly(selectedDoctorId, currentPatientId);
+                setShowGrantDialog(false);
+              }}
+            >
+              Grant Access
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

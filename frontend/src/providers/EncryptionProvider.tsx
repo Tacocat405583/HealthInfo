@@ -28,7 +28,6 @@ import { recallSignature, rememberSignature } from '../services/sessionCache'
 import { secp256k1 } from '@noble/curves/secp256k1'
 import { bytesToHex } from '@noble/hashes/utils'
 import { useWeb3 } from './Web3Provider'
-import { useFaceAuthContext } from './FaceAuthProvider'
 import type { ECIESKeypair } from '../types/crypto'
 
 interface EncryptionState {
@@ -56,7 +55,6 @@ const EncryptionContext = createContext<EncryptionState | null>(null)
 
 export function EncryptionProvider({ children }: { children: React.ReactNode }) {
   const { address, signer } = useWeb3()
-  const { isVerified: faceVerified } = useFaceAuthContext()
   const [keypair, setKeypair] = useState<ECIESKeypair | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
   const [initError, setInitError] = useState<string | null>(null)
@@ -83,12 +81,6 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
       setInitError('Wallet not connected')
       return
     }
-    // Face auth is a hard gate — ECIES initialization is blocked until the
-    // user has completed the second factor.
-    if (!faceVerified) {
-      setInitError('Face verification required before unlocking encryption keys')
-      return
-    }
 
     setIsInitializing(true)
     setInitError(null)
@@ -96,9 +88,6 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
     try {
       const message = keyDerivationMessage(address)
 
-      // Try to reuse the signature FaceAuthProvider already collected.
-      // If that's not available (e.g. first-enroll path skipped the local
-      // decrypt step), fall back to prompting MetaMask for a fresh signature.
       let signature = recallSignature(address)
       if (!signature) {
         signature = await signer.signMessage(message)
@@ -127,19 +116,18 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setIsInitializing(false)
     }
-  }, [address, signer, faceVerified])
+  }, [address, signer])
 
-  // Auto-init the ECIES keypair the moment face verification succeeds.
-  // This gives the user a single-touch login: pass face → keys unlock → app
-  // mounts. The initLockRef prevents StrictMode's double-invoke from firing
-  // two signMessage prompts in development.
+  // Auto-init the ECIES keypair when the wallet connects.
+  // initLockRef prevents StrictMode's double-invoke from firing two
+  // signMessage prompts in development.
   useEffect(() => {
-    if (!faceVerified || keypair || isInitializing || initLockRef.current) return
+    if (!address || !signer || keypair || isInitializing || initLockRef.current) return
     initLockRef.current = true
     void initKeys().finally(() => {
       initLockRef.current = false
     })
-  }, [faceVerified, keypair, isInitializing, initKeys])
+  }, [address, signer, keypair, isInitializing, initKeys])
 
   const clearKeys = useCallback(async () => {
     if (address) {

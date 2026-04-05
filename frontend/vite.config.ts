@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
       include: ['ethers'],
     },
     server: {
-      port: 3000,
+      host: true,
       proxy: {
         // Proxy AI requests to UCI ZotGPT Azure OpenAI.
         // The api-key header is attached server-side here so it NEVER touches

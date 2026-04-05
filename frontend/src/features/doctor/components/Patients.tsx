@@ -22,12 +22,17 @@ export function Patients() {
     patients,
     doctors,
     testResults,
+    addPatientByAddress,
     requestPatientAccess,
     getPatientAccessStatus,
   } = useApp();
 
   const [search, setSearch] = useState('');
   const [expandedPatient, setExpandedPatient] = useState<string | null>(null);
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [addAddress, setAddAddress] = useState('');
+  const [addName, setAddName] = useState('');
+  const [addError, setAddError] = useState('');
   const [showRequestDialog, setShowRequestDialog] = useState(false);
   const [selectedPatientId, setSelectedPatientId] = useState('');
   const [requestReason, setRequestReason] = useState('');
@@ -54,6 +59,23 @@ export function Patients() {
   const filtered = myPatients.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  function handleAddPatient() {
+    const trimmed = addAddress.trim();
+    if (!/^0x[0-9a-fA-F]{40}$/.test(trimmed)) {
+      setAddError('Enter a valid Ethereum address (0x…)');
+      return;
+    }
+    const ok = addPatientByAddress(trimmed, addName, currentDoctorId);
+    if (!ok) {
+      setAddError('This patient is already on your roster.');
+      return;
+    }
+    setShowAddDialog(false);
+    setAddAddress('');
+    setAddName('');
+    setAddError('');
+  }
 
   function openRequestDialog(patientId: string) {
     setSelectedPatientId(patientId);
@@ -131,7 +153,13 @@ export function Patients() {
           <h2 className="text-foreground mb-2">My Patients</h2>
           <p className="text-muted-foreground">Manage and review your patient roster</p>
         </div>
-        <div className="text-sm text-muted-foreground">{myPatients.length} total patients</div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground">{myPatients.length} total patients</span>
+          <Button size="sm" onClick={() => { setAddAddress(''); setAddName(''); setAddError(''); setShowAddDialog(true); }}>
+            <Plus className="w-3.5 h-3.5 mr-1.5" />
+            Add Patient
+          </Button>
+        </div>
       </div>
 
       <div className="relative">
@@ -296,6 +324,47 @@ export function Patients() {
           </div>
         )}
       </div>
+
+      {/* Add patient by address dialog */}
+      <Dialog open={showAddDialog} onOpenChange={(o) => { setShowAddDialog(o); setAddError(''); }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Patient</DialogTitle>
+            <DialogDescription>
+              Enter the patient's wallet address to add them to your roster.
+              They can find their address in MetaMask or at the top of their patient portal.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-1.5 block">Wallet Address</label>
+              <Input
+                placeholder="0x…"
+                value={addAddress}
+                onChange={(e) => { setAddAddress(e.target.value); setAddError(''); }}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddPatient()}
+                className="font-mono text-sm"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground mb-1.5 block">
+                Name <span className="text-muted-foreground font-normal">(optional)</span>
+              </label>
+              <Input
+                placeholder="e.g., Jane Smith"
+                value={addName}
+                onChange={(e) => setAddName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddPatient()}
+              />
+            </div>
+            {addError && <p className="text-sm text-destructive">{addError}</p>}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddDialog(false)}>Cancel</Button>
+            <Button onClick={handleAddPatient} disabled={!addAddress.trim()}>Add Patient</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Create record dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>

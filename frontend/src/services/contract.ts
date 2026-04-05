@@ -64,7 +64,7 @@ export class HealthVaultService {
     // If we got a Signer without an attached Provider, we can't build a true
     // read-only runner — fall back to the writable contract and warn, so callers
     // can notice that view calls may prompt the wallet in this degraded state.
-    if (signerOrProvider instanceof ethers.Signer) {
+    if (signerOrProvider && 'getAddress' in signerOrProvider && typeof (signerOrProvider as { getAddress?: unknown }).getAddress === 'function' && !('getBlock' in signerOrProvider)) {
       if (signerOrProvider.provider) {
         this.readContract = new ethers.Contract(address, ABI, signerOrProvider.provider)
       } else {
