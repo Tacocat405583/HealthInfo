@@ -13,6 +13,7 @@
 import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Web3Provider } from './Web3Provider'
+import { FaceAuthProvider } from './FaceAuthProvider'
 import { EncryptionProvider } from './EncryptionProvider'
 
 const queryClient = new QueryClient({
@@ -26,13 +27,24 @@ const queryClient = new QueryClient({
   },
 })
 
+/**
+ * Provider stack order matters:
+ *   QueryClient > Web3 > FaceAuth > Encryption
+ *
+ * FaceAuth sits between Web3 and Encryption because it needs the signer
+ * (to derive the AES key that encrypts the face descriptor) AND must gate
+ * the ECIES key initialization — EncryptionProvider.initKeys() refuses to
+ * run until useFaceAuth().isVerified === true.
+ */
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <Web3Provider>
-        <EncryptionProvider>
-          {children}
-        </EncryptionProvider>
+        <FaceAuthProvider>
+          <EncryptionProvider>
+            {children}
+          </EncryptionProvider>
+        </FaceAuthProvider>
       </Web3Provider>
     </QueryClientProvider>
   )
