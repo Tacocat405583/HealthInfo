@@ -1,4 +1,4 @@
-import { Pill, Plus, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Pill, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from '../../../app/context/AppContext';
 import {
@@ -80,10 +80,6 @@ export function Prescriptions() {
           <h2 className="text-foreground mb-2">Prescriptions</h2>
           <p className="text-muted-foreground">Manage prescriptions and medication requests</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm">
-          <Plus className="w-4 h-4" />
-          New Prescription
-        </button>
       </div>
 
       {/* Medication Requests from Patients */}

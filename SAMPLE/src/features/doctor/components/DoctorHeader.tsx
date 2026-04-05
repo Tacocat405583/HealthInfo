@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, ChevronLeft, LogOut, Settings, User } from 'lucide-react';
+import { Bell, ChevronDown, ChevronLeft, LogOut, User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -33,7 +33,7 @@ export function DoctorHeader() {
           </div>
         </div>
         <div>
-          <h1 className="text-foreground">HealthPortal</h1>
+          <h1 className="text-foreground">HealthVault</h1>
           <p className="text-sm text-muted-foreground">Provider Dashboard</p>
         </div>
       </div>
@@ -43,10 +43,6 @@ export function DoctorHeader() {
           <Bell className="w-5 h-5 text-muted-foreground" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full"></span>
         </button>
-        <button className="p-2 hover:bg-accent rounded-lg transition-colors">
-          <Settings className="w-5 h-5 text-muted-foreground" />
-        </button>
-
         {/* Profile dropdown */}
         <div ref={dropdownRef} className="relative">
           <button

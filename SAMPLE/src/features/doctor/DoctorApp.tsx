@@ -15,7 +15,7 @@ export default function DoctorApp() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard':     return <DoctorDashboard />;
+      case 'dashboard':     return <DoctorDashboard onTabChange={setActiveTab} />;
       case 'patients':      return <Patients />;
       case 'schedule':      return <Schedule />;
       case 'labs':          return <LabOrders />;

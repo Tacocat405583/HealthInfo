@@ -60,6 +60,22 @@ export class HealthVaultService {
     this.readContract = provider
       ? new ethers.Contract(address, ABI, provider)
       : this.contract
+    // Read-only contract (avoids prompting MetaMask for pure view calls).
+    // If we got a Signer without an attached Provider, we can't build a true
+    // read-only runner — fall back to the writable contract and warn, so callers
+    // can notice that view calls may prompt the wallet in this degraded state.
+    if (signerOrProvider instanceof ethers.Signer) {
+      if (signerOrProvider.provider) {
+        this.readContract = new ethers.Contract(address, ABI, signerOrProvider.provider)
+      } else {
+        console.warn(
+          'HealthVaultService: Signer has no attached provider; read calls will use the Signer and may prompt the wallet.',
+        )
+        this.readContract = this.contract
+      }
+    } else {
+      this.readContract = this.contract
+    }
   }
 
   // ── Patient ──────────────────────────────────────────────────────────────────
@@ -242,7 +258,12 @@ export class HealthVaultService {
       }
       if (!raw.cid) return null
       return toRecordPointer(raw)
-    } catch {
+    } catch (err) {
+      // Swallowing errors here would hide real RPC/network failures and make
+      // "no record" indistinguishable from "failed to fetch". Log the cause so
+      // it's visible in devtools; still return null so callers can render a
+      // neutral "no data yet" state without crashing.
+      console.warn(`peekRecord failed for patient=${patient} category=${category}:`, err)
       return null
     }
   }
@@ -252,17 +273,25 @@ export class HealthVaultService {
   /**
    * Query all audit events for a patient address.
    * Sorted by block number ascending.
+   *
+   * NOTE: defaults scan from genesis (block 0) which works on the Hardhat local
+   * node but will hit RPC provider range limits (typically 10k blocks) on
+   * Sepolia/mainnet. Pass an explicit `fromBlock` near the patient registration
+   * block, or replace this with a subgraph query for production deployments.
    */
-  async queryAuditEvents(patient: string): Promise<AuditEvent[]> {
-    const filter = { fromBlock: 0, toBlock: 'latest' }
+  async queryAuditEvents(
+    patient: string,
+    fromBlock: number = 0,
+    toBlock: number | 'latest' = 'latest',
+  ): Promise<AuditEvent[]> {
     const events: AuditEvent[] = []
 
     const [added, updated, accessed, granted, revoked] = await Promise.all([
-      this.contract.queryFilter(this.contract.filters.RecordAdded(patient), filter.fromBlock, filter.toBlock),
-      this.contract.queryFilter(this.contract.filters.RecordUpdated(patient), filter.fromBlock, filter.toBlock),
-      this.contract.queryFilter(this.contract.filters.RecordAccessed(patient), filter.fromBlock, filter.toBlock),
-      this.contract.queryFilter(this.contract.filters.AccessGranted(patient), filter.fromBlock, filter.toBlock),
-      this.contract.queryFilter(this.contract.filters.AccessRevoked(patient), filter.fromBlock, filter.toBlock),
+      this.contract.queryFilter(this.contract.filters.RecordAdded(patient), fromBlock, toBlock),
+      this.contract.queryFilter(this.contract.filters.RecordUpdated(patient), fromBlock, toBlock),
+      this.contract.queryFilter(this.contract.filters.RecordAccessed(patient), fromBlock, toBlock),
+      this.contract.queryFilter(this.contract.filters.AccessGranted(patient), fromBlock, toBlock),
+      this.contract.queryFilter(this.contract.filters.AccessRevoked(patient), fromBlock, toBlock),
     ])
 
     for (const e of added) {
@@ -348,32 +377,21 @@ export class HealthVaultService {
 
 // ─── Factory ───────────────────────────────────────────────────────────────────
 
-/** Singleton map: chainId → service instance */
-const _instances = new Map<string, HealthVaultService>()
-
 /**
- * Get (or create) a HealthVaultService for the given signer/provider and chainId.
- * Re-uses the same instance if called again with the same chainId.
- */
-export function getHealthVaultService(
-  signerOrProvider: ethers.Signer | ethers.Provider,
-  chainId: number,
-): HealthVaultService {
-  const key = `${chainId}`
-  if (!_instances.has(key)) {
-    _instances.set(key, new HealthVaultService(signerOrProvider, chainId))
-  }
-  return _instances.get(key)!
-}
-
-/**
- * Force-create a new HealthVaultService (use after account/network change).
+ * Create a fresh HealthVaultService for the given signer/provider and chainId.
+ *
+ * Note: a previous revision cached instances by chainId in a module-level Map,
+ * but that returned stale instances after account switches on the same chain
+ * (the cached Signer still referenced the old wallet). We now always return a
+ * new instance; memoization for render stability should happen at the hook
+ * layer (`useContract` already wraps this in `useMemo`).
  */
 export function createHealthVaultService(
   signerOrProvider: ethers.Signer | ethers.Provider,
   chainId: number,
 ): HealthVaultService {
-  const svc = new HealthVaultService(signerOrProvider, chainId)
-  _instances.set(`${chainId}`, svc)
-  return svc
+  return new HealthVaultService(signerOrProvider, chainId)
 }
+
+/** @deprecated Use `createHealthVaultService`. This alias exists only to avoid breaking older callers. */
+export const getHealthVaultService = createHealthVaultService

@@ -1,8 +1,13 @@
-import { Calendar, Clock, List, MapPin, Plus, Video } from 'lucide-react';
+import { Calendar, Clock, List, MapPin, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { CalendarView } from './CalendarView';
+import { useApp } from '../context/AppContext';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
 
-const appointments = [
+const upcomingAppointments = [
   {
     id: 1,
     doctor: 'Dr. Sarah Martinez',
@@ -10,7 +15,6 @@ const appointments = [
     date: 'April 5, 2026',
     time: '2:00 PM',
     location: 'Building A, Room 305',
-    type: 'In-person',
   },
   {
     id: 2,
@@ -18,8 +22,7 @@ const appointments = [
     specialty: 'Primary Care',
     date: 'April 12, 2026',
     time: '10:30 AM',
-    location: 'Video Call',
-    type: 'Telehealth',
+    location: 'Building B, Room 210',
   },
   {
     id: 3,
@@ -28,12 +31,40 @@ const appointments = [
     date: 'April 18, 2026',
     time: '3:15 PM',
     location: 'Building C, Room 120',
-    type: 'In-person',
   },
 ];
 
 export function Appointments() {
+  const { currentPatientId, patients, doctors, addAppointmentRequest } = useApp();
   const [view, setView] = useState<'list' | 'calendar'>('list');
+  const [showDialog, setShowDialog] = useState(false);
+  const [preferredDate, setPreferredDate] = useState('');
+  const [reason, setReason] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const currentPatient = patients.find(p => p.id === currentPatientId);
+  const primaryDoctorId = currentPatient?.doctors[0] ?? 'doctor1';
+  const primaryDoctor = doctors.find(d => d.id === primaryDoctorId);
+
+  const calendarAppointments = upcomingAppointments.map(a => ({
+    ...a,
+    type: 'In-person',
+  }));
+
+  const handleSubmit = () => {
+    if (!preferredDate || !reason) return;
+    addAppointmentRequest({
+      patientId: currentPatientId,
+      patientName: currentPatient?.name ?? 'Patient',
+      doctorId: primaryDoctorId,
+      preferredDate,
+      reason,
+    });
+    setSubmitted(true);
+    setShowDialog(false);
+    setPreferredDate('');
+    setReason('');
+  };
 
   return (
     <div className="space-y-6">
@@ -43,7 +74,6 @@ export function Appointments() {
           <p className="text-muted-foreground">Manage your upcoming healthcare visits</p>
         </div>
         <div className="flex items-center gap-2">
-          {/* View toggle */}
           <div className="flex items-center bg-muted rounded-lg p-1">
             <button
               onClick={() => setView('list')}
@@ -64,19 +94,28 @@ export function Appointments() {
               Calendar
             </button>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm">
+          <button
+            onClick={() => setShowDialog(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm"
+          >
             <Plus className="w-4 h-4" />
             Schedule New
           </button>
         </div>
       </div>
 
+      {submitted && (
+        <div className="bg-primary/10 border border-primary/20 text-primary rounded-xl px-4 py-3 text-sm">
+          Your appointment request has been sent to {primaryDoctor?.name ?? 'your doctor'}. They will confirm shortly.
+        </div>
+      )}
+
       {view === 'calendar' ? (
-        <CalendarView appointments={appointments} />
+        <CalendarView appointments={calendarAppointments} />
       ) : (
         <>
           <div className="grid grid-cols-1 gap-4">
-            {appointments.map((appointment) => (
+            {upcomingAppointments.map((appointment) => (
               <div key={appointment.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-md transition-shadow">
                 <div className="flex items-start justify-between">
                   <div className="flex gap-4">
@@ -84,15 +123,7 @@ export function Appointments() {
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-foreground">{appointment.doctor}</h3>
-                        {appointment.type === 'Telehealth' && (
-                          <span className="flex items-center gap-1 px-2 py-0.5 bg-secondary/10 text-secondary rounded-full text-xs">
-                            <Video className="w-3 h-3" />
-                            Telehealth
-                          </span>
-                        )}
-                      </div>
+                      <h3 className="text-foreground mb-1">{appointment.doctor}</h3>
                       <p className="text-sm text-muted-foreground mb-3">{appointment.specialty}</p>
                       <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -110,14 +141,9 @@ export function Appointments() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <button className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap">
-                      {appointment.type === 'Telehealth' ? 'Join Call' : 'View Details'}
-                    </button>
-                    <button className="px-4 py-2 border border-border text-foreground rounded-lg hover:bg-accent transition-colors whitespace-nowrap">
-                      Reschedule
-                    </button>
-                  </div>
+                  <button className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap">
+                    View Details
+                  </button>
                 </div>
               </div>
             ))}
@@ -135,16 +161,49 @@ export function Appointments() {
                     <p className="text-foreground">{past.doctor}</p>
                     <p className="text-sm text-muted-foreground">{past.specialty}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-muted-foreground">{past.date}</p>
-                    <button className="text-sm text-primary hover:underline">View notes</button>
-                  </div>
+                  <p className="text-sm text-muted-foreground">{past.date}</p>
                 </div>
               ))}
             </div>
           </div>
         </>
       )}
+
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Schedule New Appointment</DialogTitle>
+            <DialogDescription>
+              Request an appointment with {primaryDoctor?.name ?? 'your doctor'}. They will confirm the time.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Preferred Date</label>
+              <Input
+                type="date"
+                value={preferredDate}
+                onChange={e => setPreferredDate(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">Reason for Visit</label>
+              <Textarea
+                placeholder="Describe why you'd like to schedule this appointment..."
+                value={reason}
+                onChange={e => setReason(e.target.value)}
+                className="min-h-[100px]"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowDialog(false)}>Cancel</Button>
+            <Button onClick={handleSubmit} disabled={!preferredDate || !reason.trim()}>
+              Send Request
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

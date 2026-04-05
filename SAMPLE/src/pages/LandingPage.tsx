@@ -16,7 +16,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div>
-            <p className="font-semibold text-foreground leading-tight">HealthPortal</p>
+            <p className="font-semibold text-foreground leading-tight">HealthVault</p>
             <p className="text-xs text-muted-foreground">Your health, simplified</p>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function LandingPage() {
         </h1>
 
         <p className="text-xl text-muted-foreground max-w-2xl mb-10">
-          HealthPortal connects patients and providers through a modern, intuitive platform —
+          HealthVault connects patients and providers through a modern, intuitive platform —
           so you can spend less time navigating clunky software and more time focused on care.
         </p>
 
@@ -68,18 +68,6 @@ export default function LandingPage() {
           </button>
         </div>
 
-        <div className="flex items-center gap-8 mt-12 flex-wrap justify-center">
-          {[
-            { value: '50K+', label: 'Patients Served' },
-            { value: '2,500+', label: 'Healthcare Providers' },
-            { value: '98%', label: 'Satisfaction Rate' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ── Features ── */}
@@ -172,7 +160,7 @@ export default function LandingPage() {
 
             <div className="bg-gradient-to-br from-primary to-primary/80 rounded-xl p-6 text-white">
               <p className="text-sm font-semibold text-white/70 mb-4 uppercase tracking-wide">
-                HealthPortal
+                HealthVault
               </p>
               {[
                 'Modern, lightning-fast UI',
@@ -226,10 +214,10 @@ export default function LandingPage() {
                 <div className="w-1.5 h-2 border-2 border-white border-t-0 rounded-b-sm" />
               </div>
             </div>
-            <p className="text-sm font-medium text-foreground">HealthPortal</p>
+            <p className="text-sm font-medium text-foreground">HealthVault</p>
           </div>
           <p className="text-sm text-muted-foreground">
-            © 2026 HealthPortal. Built at PantherHacks.
+            © 2026 HealthVault. Built at PantherHacks.
           </p>
         </div>
       </footer>

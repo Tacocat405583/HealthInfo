@@ -42,6 +42,17 @@ export interface AuthorizationRequest {
   createdAt: string;
 }
 
+export interface AppointmentRequest {
+  id: string;
+  patientId: string;
+  patientName: string;
+  doctorId: string;
+  preferredDate: string;
+  reason: string;
+  status: 'pending' | 'confirmed' | 'denied';
+  createdAt: string;
+}
+
 export interface MedicationRequest {
   id: string;
   patientId: string;
@@ -75,6 +86,8 @@ interface AppContextType {
   testResults: TestResult[];
   authorizationRequests: AuthorizationRequest[];
   medicationRequests: MedicationRequest[];
+  appointmentRequests: AppointmentRequest[];
+  addAppointmentRequest: (request: Omit<AppointmentRequest, 'id' | 'createdAt' | 'status'>) => void;
   notifications: Notification[];
   addAuthorizationRequest: (request: Omit<AuthorizationRequest, 'id' | 'createdAt' | 'status'>) => void;
   updateAuthorizationRequest: (id: string, status: 'approved' | 'denied', denialReason?: string) => void;
@@ -177,6 +190,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const [authorizationRequests, setAuthorizationRequests] = useState<AuthorizationRequest[]>([]);
   const [medicationRequests, setMedicationRequests] = useState<MedicationRequest[]>([]);
+  const [appointmentRequests, setAppointmentRequests] = useState<AppointmentRequest[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addAuthorizationRequest = (request: Omit<AuthorizationRequest, 'id' | 'createdAt' | 'status'>) => {
@@ -227,6 +241,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
       };
       setNotifications(prev => [...prev, notification]);
     }
+  };
+
+  const addAppointmentRequest = (request: Omit<AppointmentRequest, 'id' | 'createdAt' | 'status'>) => {
+    const newRequest: AppointmentRequest = {
+      ...request,
+      id: `appt_${Date.now()}`,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+    setAppointmentRequests(prev => [...prev, newRequest]);
   };
 
   const addMedicationRequest = (request: Omit<MedicationRequest, 'id' | 'createdAt' | 'status'>) => {
@@ -311,6 +335,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         testResults,
         authorizationRequests,
         medicationRequests,
+        appointmentRequests,
+        addAppointmentRequest,
         notifications,
         addAuthorizationRequest,
         updateAuthorizationRequest,

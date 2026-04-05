@@ -36,13 +36,22 @@ export function usePatient(patientAddress?: string) {
     mutationFn: async () => {
       if (!svc) throw new Error('Wallet not connected')
       if (!publicKeyHex) throw new Error('Encryption keys not initialized — call initKeys() first')
+      // `svc.registerPatient` registers the connected wallet, so refuse to run
+      // when the hook is viewing a *different* patient — otherwise we'd register
+      // the connected wallet but invalidate the other patient's cache entries.
+      if (patientAddress && address && patientAddress.toLowerCase() !== address.toLowerCase()) {
+        throw new Error('Cannot register another patient from this wallet')
+      }
 
       const tx = await svc.registerPatient(publicKeyHex)
       await tx.wait()
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['patient', 'registered', targetAddress] })
-      queryClient.invalidateQueries({ queryKey: ['patient', 'publicKey', targetAddress] })
+      // Invalidate keyed by the connected wallet (the account that was actually
+      // registered), not by the hook's display target.
+      const connected = address ?? targetAddress
+      queryClient.invalidateQueries({ queryKey: ['patient', 'registered', connected] })
+      queryClient.invalidateQueries({ queryKey: ['patient', 'publicKey', connected] })
     },
   })
 

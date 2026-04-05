@@ -145,9 +145,6 @@ export function Dashboard() {
               </div>
             ))}
           </div>
-          <button className="w-full mt-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors">
-            View all results
-          </button>
         </div>
       </div>
 

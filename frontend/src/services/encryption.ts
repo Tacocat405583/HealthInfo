@@ -39,6 +39,12 @@ import type { ECIESKeypair, WrappedDEK, DEK, EncryptedBlob } from '../types/cryp
  */
 export function deriveKeypairFromSignature(signature: string): ECIESKeypair {
   const sigBytes = hexToBytes(signature.startsWith('0x') ? signature.slice(2) : signature)
+  // Ethereum personal_sign signatures are always 65 bytes (r:32 || s:32 || v:1).
+  // Any other length means a malformed/truncated signature, which would otherwise
+  // silently derive a non-deterministic keypair across retries.
+  if (sigBytes.length !== 65) {
+    throw new Error(`Invalid signature length: expected 65 bytes, got ${sigBytes.length}`)
+  }
   // HKDF-SHA256: input key material = signature, no salt, info = domain string
   const privateKey = hkdf(sha256, sigBytes, new Uint8Array(0), 'healthvault-ecies-v1', 32)
   const publicKey = secp256k1.getPublicKey(privateKey, true) // compressed 33 bytes
@@ -89,16 +95,31 @@ export async function encryptFile(data: Uint8Array, dek: DEK): Promise<Encrypted
  * Decrypt an EncryptedBlob payload fetched from IPFS.
  */
 export async function decryptFile(payload: Uint8Array, dek: DEK): Promise<Uint8Array> {
-  const view = new DataView(payload.buffer, payload.byteOffset)
+  // Minimum payload = 4-byte ivLen + (at least 12-byte) iv + 4-byte ctLen + (at least 16-byte) GCM tag.
+  // Validate lengths before slicing so a corrupted/truncated payload fails with a clear
+  // error instead of a cryptic GCM authentication failure downstream.
+  if (payload.byteLength < 8) {
+    throw new Error('Payload corrupted: too short to contain header')
+  }
+  const view = new DataView(payload.buffer, payload.byteOffset, payload.byteLength)
   let offset = 0
 
   const ivLen = view.getUint32(offset, true)
   offset += 4
+  if (offset + ivLen > payload.byteLength) {
+    throw new Error(`Payload corrupted: IV extends beyond payload (ivLen=${ivLen})`)
+  }
   const iv = payload.slice(offset, offset + ivLen)
   offset += ivLen
 
+  if (offset + 4 > payload.byteLength) {
+    throw new Error('Payload corrupted: missing ciphertext length header')
+  }
   const ctLen = view.getUint32(offset, true)
   offset += 4
+  if (offset + ctLen > payload.byteLength) {
+    throw new Error(`Payload corrupted: ciphertext extends beyond payload (ctLen=${ctLen})`)
+  }
   const ciphertext = payload.slice(offset, offset + ctLen)
 
   const key = await importAESKey(dek)
@@ -119,9 +140,15 @@ export async function wrapDEK(dek: DEK, recipientPubKey: Uint8Array): Promise<Wr
   const ephemeralPrivKey = secp256k1.utils.randomPrivateKey()
   const ephemeralPubKey = secp256k1.getPublicKey(ephemeralPrivKey, true)
 
-  // ECDH shared secret (x-coordinate of the shared point)
+  // ECDH shared secret. @noble/curves returns a compressed point (33 bytes:
+  // 1-byte parity prefix || 32-byte x-coordinate) by default — slice(1) yields
+  // the standard 32-byte x-only shared secret used as HKDF input material.
+  // See: node_modules/@noble/curves/README.md and weierstrass.js ecdh().
   const sharedPoint = secp256k1.getSharedSecret(ephemeralPrivKey, recipientPubKey)
-  const sharedSecret = sharedPoint.slice(1) // strip the 02/03 prefix, take 32-byte x coord
+  if (sharedPoint.length !== 33) {
+    throw new Error(`Unexpected ECDH shared point length: ${sharedPoint.length} (expected 33)`)
+  }
+  const sharedSecret = sharedPoint.slice(1)
 
   // Derive 32-byte AES key via HKDF (info binds to the ephemeral pubkey)
   const encKey = hkdf(sha256, sharedSecret, ephemeralPubKey, 'healthvault-dek-wrap-v1', 32)
@@ -146,13 +173,22 @@ export async function wrapDEK(dek: DEK, recipientPubKey: Uint8Array): Promise<Wr
  */
 export async function unwrapDEK(wrappedDEK: WrappedDEK, myPrivKey: Uint8Array): Promise<DEK> {
   const envelope = base64ToUint8Array(wrappedDEK)
+  // Envelope is exactly 93 bytes: [33 ephemeral pubkey][12 IV][32 DEK + 16 GCM tag].
+  // A truncated/corrupted base64 string would otherwise slice past the end and
+  // produce a cryptic GCM auth failure instead of a clear error.
+  if (envelope.length !== 93) {
+    throw new Error(`Invalid wrapped DEK envelope: expected 93 bytes, got ${envelope.length}`)
+  }
 
   const ephemeralPubKey = envelope.slice(0, 33)
   const iv = envelope.slice(33, 45)
   const encryptedDEK = envelope.slice(45) // 48 bytes: 32 DEK + 16 GCM tag
 
-  // ECDH
+  // ECDH — same compressed-point convention as wrapDEK (see comment there).
   const sharedPoint = secp256k1.getSharedSecret(myPrivKey, ephemeralPubKey)
+  if (sharedPoint.length !== 33) {
+    throw new Error(`Unexpected ECDH shared point length: ${sharedPoint.length} (expected 33)`)
+  }
   const sharedSecret = sharedPoint.slice(1)
 
   const encKey = hkdf(sha256, sharedSecret, ephemeralPubKey, 'healthvault-dek-wrap-v1', 32)

@@ -14,9 +14,14 @@
  */
 
 import { useWallet } from './hooks/useWallet'
+import { useFaceAuth } from './hooks/useFaceAuth'
+import { useEncryption } from './providers/EncryptionProvider'
+import { FaceAuthGate } from './components/FaceAuthGate'
 
 export default function App() {
   const { isConnected, shortAddress, connect, wrongNetwork, switchNetwork, isConnecting, connectError, expectedChainId, chainId } = useWallet()
+  const { isVerified: faceVerified } = useFaceAuth()
+  const { isReady: keysReady } = useEncryption()
 
   const NETWORK_NAMES: Record<number, string> = {
     31337: 'Hardhat Local (localhost:8545)',
@@ -69,6 +74,13 @@ export default function App() {
         </div>
       </div>
     )
+  }
+
+  // Wallet connected but 2FA not complete yet — show the face gate.
+  // The gate covers: enrollment, verification, recovery, and the brief
+  // "unlocking ECIES keys" step after face succeeds.
+  if (!faceVerified || !keysReady) {
+    return <FaceAuthGate />
   }
 
   return (
