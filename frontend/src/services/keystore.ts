@@ -11,7 +11,6 @@
  */
 
 import { openDB, type IDBPDatabase } from 'idb'
-import { encryptFile, decryptFile } from './encryption'
 
 const DB_NAME = 'healthvault-keystore'
 const DB_VERSION = 1
@@ -45,11 +44,15 @@ async function getDB(): Promise<IDBPDatabase> {
 async function deriveStorageKey(signature: string): Promise<CryptoKey> {
   // SHA-256 of the signature bytes → raw AES-256 key
   const sigBytes = hexToBytes(signature.startsWith('0x') ? signature.slice(2) : signature)
-  const keyBytes = new Uint8Array(await crypto.subtle.digest('SHA-256', sigBytes))
-  return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, [
+  const keyBytes = new Uint8Array(await crypto.subtle.digest('SHA-256', asBufferSource(sigBytes)))
+  return crypto.subtle.importKey('raw', asBufferSource(keyBytes), { name: 'AES-GCM' }, false, [
     'encrypt',
     'decrypt',
   ])
+}
+
+function asBufferSource(bytes: Uint8Array): BufferSource {
+  return bytes as unknown as BufferSource
 }
 
 function hexToBytes(hex: string): Uint8Array {
@@ -75,7 +78,7 @@ export async function savePrivateKey(
   const storageKey = await deriveStorageKey(signature)
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const ciphertext = new Uint8Array(
-    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, storageKey, privKey),
+    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, storageKey, asBufferSource(privKey)),
   )
 
   // Store as a simple blob: [12 IV bytes][ciphertext bytes]

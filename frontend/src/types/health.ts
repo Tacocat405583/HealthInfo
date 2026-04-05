@@ -11,6 +11,7 @@ export enum RecordCategory {
   Labs = 5,
   Imaging = 6,
   MentalHealth = 7,
+  Scheduling = 8,
 }
 
 export const RECORD_CATEGORY_LABELS: Record<RecordCategory, string> = {
@@ -22,6 +23,7 @@ export const RECORD_CATEGORY_LABELS: Record<RecordCategory, string> = {
   [RecordCategory.Labs]: 'Lab Results',
   [RecordCategory.Imaging]: 'Imaging',
   [RecordCategory.MentalHealth]: 'Mental Health',
+  [RecordCategory.Scheduling]: 'Scheduling',
 }
 
 export const ALL_CATEGORIES = Object.values(RecordCategory).filter(

@@ -45,7 +45,7 @@ export async function uploadToIPFS(payload: Uint8Array, filename = 'record'): Pr
 
 async function uploadViaKubo(payload: Uint8Array, filename: string): Promise<string> {
   const form = new FormData()
-  form.append('file', new Blob([payload]), filename)
+  form.append('file', new Blob([payload as BlobPart]), filename)
 
   const res = await fetch(`${IPFS_API}/api/v0/add?cid-version=1&quieter=true`, {
     method: 'POST',
@@ -65,7 +65,7 @@ async function uploadViaKubo(payload: Uint8Array, filename: string): Promise<str
 
 async function uploadViaPinata(payload: Uint8Array, filename: string): Promise<string> {
   const form = new FormData()
-  form.append('file', new Blob([payload]), filename)
+  form.append('file', new Blob([payload as BlobPart]), filename)
   form.append(
     'pinataMetadata',
     JSON.stringify({ name: `healthvault-${filename}-${Date.now()}` }),

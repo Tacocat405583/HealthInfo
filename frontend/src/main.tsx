@@ -1,13 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { AppProvider } from './providers/AppProvider'
-import App from './App'
-import './index.css'
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AppProvider as BackendProvider } from './providers/AppProvider'
+import { AppProvider } from './app/context/AppContext'
+import LandingPage from './pages/LandingPage'
+import PatientApp from './features/patient/PatientApp'
+import DoctorApp from './features/doctor/DoctorApp'
+import { Toaster } from './app/components/ui/sonner'
+import './styles/index.css'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+createRoot(document.getElementById('root')!).render(
+  <BackendProvider>
     <AppProvider>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/patient" element={<PatientApp />} />
+          <Route path="/doctor" element={<DoctorApp />} />
+        </Routes>
+      </BrowserRouter>
+      <Toaster richColors position="bottom-right" />
     </AppProvider>
-  </React.StrictMode>,
+  </BackendProvider>
 )

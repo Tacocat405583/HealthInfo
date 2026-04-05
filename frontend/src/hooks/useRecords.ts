@@ -21,7 +21,7 @@ import { useContract } from './useContract'
 import { generateDEK, encryptFile, decryptFile, wrapDEK, unwrapDEK } from '../services/encryption'
 import { uploadToIPFS, fetchFromIPFS } from '../services/ipfs'
 import { hexToUint8Array } from '../services/encryption'
-import { RecordCategory, AccessLevel, type DecryptedRecord } from '../types/health'
+import { RecordCategory, type DecryptedRecord } from '../types/health'
 import type { RecordPointer } from '../types/health'
 
 // ─── Read a single record ──────────────────────────────────────────────────────
@@ -47,7 +47,6 @@ export function useRecord(
 ) {
   const svc = useContract()
   const { keypair } = useEncryption()
-  const { address } = useWeb3()
 
   // Include providerAddress in the key so two different providers don't share
   // a cache entry for the same patient/category (each holds its own wrapped DEK).
@@ -94,7 +93,7 @@ export function useRecord(
 
       // Try to extract MIME type from the first bytes or default to octet-stream
       const mimeType = detectMimeType(plaintext) ?? 'application/octet-stream'
-      const blob = new Blob([plaintext], { type: mimeType })
+      const blob = new Blob([plaintext as BlobPart], { type: mimeType })
       const objectUrl = URL.createObjectURL(blob)
 
       return {

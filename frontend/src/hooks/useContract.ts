@@ -16,12 +16,14 @@
 import { useMemo } from 'react'
 import { useWeb3 } from '../providers/Web3Provider'
 import { createHealthVaultService, HealthVaultService } from '../services/contract'
+import { getContractAddress } from '../contracts/addresses'
 
 export function useContract(): HealthVaultService | null {
   const { signer, provider, chainId } = useWeb3()
 
   return useMemo(() => {
     if (!chainId) return null
+    if (!getContractAddress(chainId)) return null   // unsupported / unconfigured chain
     if (signer) return createHealthVaultService(signer, chainId)
     if (provider) return createHealthVaultService(provider, chainId)
     return null
