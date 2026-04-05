@@ -1,6 +1,6 @@
 import { Calendar, Clock, MessageSquare, Users, AlertCircle, CheckCircle, Activity } from 'lucide-react';
 
-export function DoctorDashboard() {
+export function DoctorDashboard({ onTabChange }: { onTabChange: (tab: string) => void }) {
   const todayAppointments = [
     { time: '9:00 AM',  patient: 'Sarah Johnson',  type: 'Follow-up',   status: 'completed' },
     { time: '10:30 AM', patient: 'Marcus Rivera',  type: 'New Patient', status: 'in-progress' },
@@ -113,7 +113,10 @@ export function DoctorDashboard() {
             <p className="text-white/80 mb-4">
               You have <strong>2 pending prescription refill requests</strong> from patients waiting for your approval.
             </p>
-            <button className="px-4 py-2 bg-white text-primary rounded-lg hover:shadow-lg transition-shadow text-sm font-medium flex items-center gap-2">
+            <button
+              onClick={() => onTabChange('prescriptions')}
+              className="px-4 py-2 bg-white text-primary rounded-lg hover:shadow-lg transition-shadow text-sm font-medium flex items-center gap-2"
+            >
               <CheckCircle className="w-4 h-4" />
               Review Refill Requests
             </button>

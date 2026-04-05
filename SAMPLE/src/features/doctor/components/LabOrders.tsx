@@ -1,4 +1,4 @@
-import { FileText, Plus, TrendingDown, TrendingUp, Download } from 'lucide-react';
+import { FileText, TrendingDown, TrendingUp, Download } from 'lucide-react';
 import { useState } from 'react';
 import { RecordAIPanel } from '../../../ai/RecordAIPanel';
 
@@ -66,6 +66,7 @@ type FilterTab = 'pending-review' | 'reviewed' | 'all';
 
 export function LabOrders() {
   const [activeFilter, setActiveFilter] = useState<FilterTab>('pending-review');
+  const [reviewed, setReviewed] = useState<Set<number>>(new Set());
 
   const filtered = labOrders.filter((l) =>
     activeFilter === 'all' ? true : l.status === activeFilter
@@ -79,15 +80,9 @@ export function LabOrders() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-foreground mb-2">Lab Orders</h2>
-          <p className="text-muted-foreground">Review incoming results and manage orders</p>
-        </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm">
-          <Plus className="w-4 h-4" />
-          New Order
-        </button>
+      <div>
+        <h2 className="text-foreground mb-2">Lab Orders</h2>
+        <p className="text-muted-foreground">Review incoming results and manage orders</p>
       </div>
 
       {/* Filter tabs */}
@@ -157,12 +152,15 @@ export function LabOrders() {
                         PDF
                       </button>
                     )}
-                    {lab.status === 'pending-review' && lab.items.length > 0 && (
-                      <button className="px-3 py-1.5 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm">
+                    {lab.status === 'pending-review' && lab.items.length > 0 && !reviewed.has(lab.id) && (
+                      <button
+                        onClick={() => setReviewed(prev => new Set([...prev, lab.id]))}
+                        className="px-3 py-1.5 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm"
+                      >
                         Mark Reviewed
                       </button>
                     )}
-                    {lab.status === 'reviewed' && (
+                    {(lab.status === 'reviewed' || reviewed.has(lab.id)) && (
                       <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">Reviewed</span>
                     )}
                   </div>

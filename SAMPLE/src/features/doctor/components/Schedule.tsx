@@ -1,6 +1,7 @@
-import { Calendar, Clock, List, MapPin, Video, Plus, User } from 'lucide-react';
+import { Calendar, Clock, List, MapPin, Video, User, Bell } from 'lucide-react';
 import { useState } from 'react';
 import { DoctorCalendarView } from './DoctorCalendarView';
+import { useApp } from '../../../app/context/AppContext';
 
 const appointments = [
   {
@@ -117,6 +118,11 @@ const statusStyles: Record<string, string> = {
 
 export function Schedule() {
   const [view, setView] = useState<'list' | 'calendar'>('list');
+  const { appointmentRequests, currentDoctorId } = useApp();
+
+  const pendingRequests = appointmentRequests.filter(
+    r => r.doctorId === currentDoctorId && r.status === 'pending'
+  );
 
   const todayAppts = appointments.filter((a) => a.date === 'April 4, 2026');
 
@@ -149,12 +155,26 @@ export function Schedule() {
               Calendar
             </button>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity text-sm">
-            <Plus className="w-4 h-4" />
-            Add Appointment
-          </button>
         </div>
       </div>
+
+      {pendingRequests.length > 0 && (
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-2">
+          <div className="flex items-center gap-2 mb-3">
+            <Bell className="w-4 h-4 text-primary" />
+            <p className="text-sm font-semibold text-primary">Appointment Requests ({pendingRequests.length})</p>
+          </div>
+          {pendingRequests.map(req => (
+            <div key={req.id} className="flex items-center justify-between bg-card border border-border rounded-lg p-3">
+              <div>
+                <p className="text-sm font-medium text-foreground">{req.patientName}</p>
+                <p className="text-xs text-muted-foreground">Requested: {req.preferredDate} — {req.reason}</p>
+              </div>
+              <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {view === 'calendar' ? (
         <DoctorCalendarView appointments={appointments} />

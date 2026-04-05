@@ -68,18 +68,6 @@ export default function LandingPage() {
           </button>
         </div>
 
-        <div className="flex items-center gap-8 mt-12 flex-wrap justify-center">
-          {[
-            { value: '50K+', label: 'Patients Served' },
-            { value: '2,500+', label: 'Healthcare Providers' },
-            { value: '98%', label: 'Satisfaction Rate' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ── Features ── */}

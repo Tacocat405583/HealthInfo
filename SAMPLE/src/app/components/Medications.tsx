@@ -122,9 +122,6 @@ export function Medications() {
                 <button className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity">
                   Request Refill
                 </button>
-                <button className="px-4 py-2 border border-border text-foreground rounded-lg hover:bg-accent transition-colors">
-                  Set Reminder
-                </button>
               </div>
 
               {/* AI Panel — explain this medication to the patient */}
