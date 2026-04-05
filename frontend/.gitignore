@@ -1,4 +1,11 @@
 .env
+.env*.local
 /node_modules
 package-lock.json
 dist
+
+# TypeScript incremental build artifacts
+*.tsbuildinfo
+
+# macOS
+.DS_Store
