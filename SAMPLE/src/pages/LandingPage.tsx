@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Activity, Shield, MessageSquare, Zap, CheckCircle, ArrowRight, Users, Clock, Star } from 'lucide-react';
+import { Activity, Shield, MessageSquare, Zap, CheckCircle, ArrowRight, Users, Clock } from 'lucide-react';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -39,11 +39,6 @@ export default function LandingPage() {
 
       {/* ── Hero ── */}
       <section className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24 bg-gradient-to-br from-background via-muted/30 to-accent/30">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm mb-6">
-          <Star className="w-3.5 h-3.5" />
-          <span>The patient portal people actually enjoy using</span>
-        </div>
-
         <h1 className="text-5xl font-bold text-foreground max-w-3xl leading-tight mb-6">
           Healthcare Communication,{' '}
           <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
