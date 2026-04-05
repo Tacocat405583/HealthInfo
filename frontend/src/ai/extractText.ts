@@ -35,14 +35,19 @@ export async function extractText(record: DecryptedRecord): Promise<string | nul
 }
 
 async function extractPdfText(data: Uint8Array): Promise<string> {
-  // Dynamic import to avoid ~2MB bundle hit on initial page load — PDF support
-  // only loads when the user actually opens a PDF record.
-  const pdfjs = await import('pdfjs-dist')
+  // pdfjs-dist is loaded from CDN at runtime to avoid bundling its 26k-line
+  // webpack bundle through Rollup (which hangs the production build).
+  // Type safety is preserved via the installed type definitions.
+  const PDFJS_VERSION = '5.6.205'
+  const pdfjs = await import(
+    /* @vite-ignore */
+    `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/build/pdf.min.mjs`
+  ) as typeof import('pdfjs-dist')
 
   // Worker setup: use CDN worker for simplicity. In production, host the
   // worker file locally or import it as a URL via Vite's ?url suffix.
   pdfjs.GlobalWorkerOptions.workerSrc =
-    `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
+    `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/build/pdf.worker.min.mjs`
 
   const pdf = await pdfjs.getDocument({ data }).promise
   const pages: string[] = []

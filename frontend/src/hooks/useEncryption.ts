@@ -18,8 +18,7 @@ import {
   unwrapDEK,
 } from '../services/encryption'
 import { hexToUint8Array } from '../services/encryption'
-import type { DEK, EncryptedBlob, WrappedDEK } from '../types/crypto'
-import { RecordCategory } from '../types/health'
+import type { EncryptedBlob, WrappedDEK } from '../types/crypto'
 
 export function useEncryptionOps() {
   const { keypair, isReady } = useEncryptionContext()

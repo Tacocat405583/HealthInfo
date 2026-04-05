@@ -13,7 +13,6 @@
  *   import { RecordCategory, AccessLevel } from './types/health'
  */
 
-import React from 'react'
 import { useWallet } from './hooks/useWallet'
 
 export default function App() {

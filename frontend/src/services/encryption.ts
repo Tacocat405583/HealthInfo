@@ -71,7 +71,7 @@ export async function encryptFile(data: Uint8Array, dek: DEK): Promise<Encrypted
   const key = await importAESKey(dek)
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const ciphertext = new Uint8Array(
-    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, data),
+    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, asBufferSource(data)),
   )
 
   // Build self-describing payload: [4B IV len][IV][4B ciphertext len][ciphertext]
@@ -130,7 +130,7 @@ export async function wrapDEK(dek: DEK, recipientPubKey: Uint8Array): Promise<Wr
   const cryptoKey = await importAESKey(encKey)
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const encryptedDEK = new Uint8Array(
-    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, cryptoKey, dek),
+    await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, cryptoKey, asBufferSource(dek)),
   )
 
   // Envelope: [33 ephemeral pubkey][12 IV][32+16 encrypted DEK+tag] = 93 bytes
@@ -166,10 +166,14 @@ export async function unwrapDEK(wrappedDEK: WrappedDEK, myPrivKey: Uint8Array): 
 // ─── Utility ──────────────────────────────────────────────────────────────────
 
 async function importAESKey(rawKey: Uint8Array): Promise<CryptoKey> {
-  return crypto.subtle.importKey('raw', rawKey, { name: 'AES-GCM' }, false, [
+  return crypto.subtle.importKey('raw', asBufferSource(rawKey), { name: 'AES-GCM' }, false, [
     'encrypt',
     'decrypt',
   ])
+}
+
+function asBufferSource(bytes: Uint8Array): BufferSource {
+  return bytes as unknown as BufferSource
 }
 
 export function uint8ArrayToBase64(bytes: Uint8Array): string {

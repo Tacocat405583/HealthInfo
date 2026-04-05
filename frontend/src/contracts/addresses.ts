@@ -12,10 +12,6 @@ export const CONTRACT_ADDRESSES: Record<number, string> = {
   11155111: import.meta.env.VITE_CONTRACT_ADDRESS ?? '',
 }
 
-export function getContractAddress(chainId: number): string {
-  const addr = CONTRACT_ADDRESSES[chainId]
-  if (!addr) {
-    throw new Error(`No HealthVault contract address configured for chain ${chainId}`)
-  }
-  return addr
+export function getContractAddress(chainId: number): string | null {
+  return CONTRACT_ADDRESSES[chainId] ?? null
 }

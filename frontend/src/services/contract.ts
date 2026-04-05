@@ -53,12 +53,13 @@ export class HealthVaultService {
    */
   constructor(signerOrProvider: ethers.Signer | ethers.Provider, chainId: number) {
     const address = getContractAddress(chainId)
+    if (!address) throw new Error(`No HealthVault contract address configured for chain ${chainId}`)
     this.contract = new ethers.Contract(address, ABI, signerOrProvider)
     // Read-only contract (avoids prompting MetaMask for pure view calls)
-    this.readContract =
-      signerOrProvider instanceof ethers.Signer
-        ? new ethers.Contract(address, ABI, signerOrProvider.provider ?? signerOrProvider)
-        : this.contract
+    const provider = (signerOrProvider as ethers.Signer).provider
+    this.readContract = provider
+      ? new ethers.Contract(address, ABI, provider)
+      : this.contract
   }
 
   // ── Patient ──────────────────────────────────────────────────────────────────

@@ -1,0 +1,316 @@
+[2026-04-05T19:31:30.195Z] [debug] [vite] connecting...
+[2026-04-05T19:31:30.254Z] [debug] [vite] connected.
+[2026-04-05T19:31:30.326Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:31:30.481Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:31:30.481Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:32:14.635Z] [debug] [vite] connecting...
+[2026-04-05T19:32:14.652Z] [debug] [vite] connected.
+[2026-04-05T19:32:14.675Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:32:14.683Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:32:14.683Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:34:08.045Z] [debug] [vite] connecting...
+[2026-04-05T19:34:08.110Z] [debug] [vite] connected.
+[2026-04-05T19:34:58.118Z] [debug] [vite] connecting...
+[2026-04-05T19:34:58.517Z] [debug] [vite] connected.
+[2026-04-05T19:35:04.324Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:35:04.463Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:35:04.463Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:35:15.962Z] [debug] [vite] hot updated: /src/app/components/TestResults.tsx
+[2026-04-05T19:35:15.962Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:18.393Z] [debug] [vite] hot updated: /src/app/components/Dashboard.tsx
+[2026-04-05T19:35:18.393Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:26.628Z] [debug] [vite] hot updated: /src/app/components/Dashboard.tsx
+[2026-04-05T19:35:26.629Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:29.589Z] [debug] [vite] hot updated: /src/features/patient/PatientApp.tsx
+[2026-04-05T19:35:29.589Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:32.506Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T19:35:32.506Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:36.537Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T19:35:36.537Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:40.037Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T19:35:40.037Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:44.059Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T19:35:44.059Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:35:46.971Z] [debug] [vite] hot updated: /src/features/doctor/DoctorApp.tsx
+[2026-04-05T19:35:46.971Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:36:08.962Z] [debug] [vite] hot updated: /src/app/components/Appointments.tsx
+[2026-04-05T19:36:08.962Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:36:37.184Z] [debug] [vite] hot updated: /src/app/components/Medications.tsx
+[2026-04-05T19:36:37.184Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:37:05.508Z] [debug] [vite] connecting...
+[2026-04-05T19:37:05.647Z] [debug] [vite] connected.
+[2026-04-05T19:37:05.672Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:37:05.745Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:37:05.745Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:37:21.404Z] [debug] [vite] connecting...
+[2026-04-05T19:37:21.557Z] [debug] [vite] connected.
+[2026-04-05T19:37:21.606Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:37:21.710Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:37:21.710Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:37:27.322Z] [debug] [vite] connecting...
+[2026-04-05T19:37:27.330Z] [debug] [vite] connected.
+[2026-04-05T19:37:27.532Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:37:27.650Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:37:27.650Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:37:42.746Z] [error] Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?%s%s 
+
+Check the render method of `Primitive.div.SlotClone`. 
+    at DialogOverlay (http://localhost:3000/src/app/components/ui/dialog.tsx:62:3)
+    at http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:245:13
+    at http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:222:13
+    at http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:335:13
+    at http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:794:22
+    at Presence (http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:812:11)
+    at Provider (http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:60:15)
+    at DialogPortal (http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:1970:11)
+    at DialogPortal (http://localhost:3000/src/app/components/ui/dialog.tsx:42:6)
+    at DialogContent (http://localhost:3000/src/app/components/ui/dialog.tsx:87:3)
+    at Provider (http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:60:15)
+    at Dialog (http://localhost:3000/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=c07f5658:1910:5)
+    at Dialog (http://localhost:3000/src/app/components/ui/dialog.tsx:22:6)
+    at div
+    at Medications (http://localhost:3000/src/app/components/Medications.tsx?t=1775417796262:65:73)
+    at main
+    at div
+    at div
+    at PatientApp (http://localhost:3000/src/features/patient/PatientApp.tsx?t=1775417796262:29:37)
+    at RenderedRoute (http://localhost:3000/node_modules/.vite/deps/chunk-INYSTG2O.js?v=c07f5658:4124:5)
+    at Routes (http://localhost:3000/node_modules/.vite/deps/chunk-INYSTG2O.js?v=c07f5658:4665:5)
+    at Router (http://localhost:3000/node_modules/.vite/deps/chunk-INYSTG2O.js?v=c07f5658:4608:15)
+    at BrowserRouter (http://localhost:3000/node_modules/.vite/deps/react-router-dom.js?v=c07f5658:556:5)
+    at AppProvider (http://localhost:3000/src/app/context/AppContext.tsx:21:31)
+    at EncryptionProvider (http://localhost:3000/src/providers/EncryptionProvider.tsx:33:38)
+    at Web3Provider (http://localhost:3000/src/providers/Web3Provider.tsx:21:32)
+    at QueryClientProvider (http://localhost:3000/node_modules/.vite/deps/@tanstack_react-query.js?v=c07f5658:3194:3)
+    at AppProvider (http://localhost:3000/src/providers/AppProvider.tsx:32:31)
+[2026-04-05T19:37:49.993Z] [debug] [vite] connecting...
+[2026-04-05T19:37:50.088Z] [debug] [vite] connected.
+[2026-04-05T19:37:50.276Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:37:50.400Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:37:50.400Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:37:58.764Z] [debug] [vite] connecting...
+[2026-04-05T19:37:58.844Z] [debug] [vite] connected.
+[2026-04-05T19:37:58.882Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:37:59.082Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:37:59.082Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:38:04.097Z] [debug] [vite] connecting...
+[2026-04-05T19:38:04.172Z] [debug] [vite] connected.
+[2026-04-05T19:38:04.309Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:38:04.371Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:38:04.372Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:43:53.143Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T19:43:53.152Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T19:43:53.152Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:43:53.343Z] [debug] [vite] connecting...
+[2026-04-05T19:43:53.362Z] [debug] [vite] connected.
+[2026-04-05T19:43:54.485Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:43:54.614Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:43:54.614Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T19:43:57.364Z] [error] Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+[2026-04-05T19:43:57.365Z] [error] [hmr] Failed to reload /src/app/components/Dashboard.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[2026-04-05T19:43:57.565Z] [debug] [vite] hot updated: /src/app/components/Dashboard.tsx
+[2026-04-05T19:43:57.565Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:44:04.844Z] [debug] [vite] hot updated: /src/app/components/Dashboard.tsx
+[2026-04-05T19:44:04.845Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:44:09.981Z] [debug] [vite] hot updated: /src/app/components/Dashboard.tsx
+[2026-04-05T19:44:09.981Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:44:15.210Z] [debug] [vite] hot updated: /src/features/patient/components/Header.tsx
+[2026-04-05T19:44:15.210Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:44:19.340Z] [debug] [vite] hot updated: /src/features/patient/components/Header.tsx
+[2026-04-05T19:44:19.340Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:44:22.725Z] [debug] [vite] hot updated: /src/features/patient/components/Header.tsx
+[2026-04-05T19:44:22.725Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:44:28.275Z] [debug] [vite] hot updated: /src/features/doctor/components/Patients.tsx
+[2026-04-05T19:44:28.276Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T19:52:34.289Z] [debug] [vite] connecting...
+[2026-04-05T19:52:34.363Z] [debug] [vite] connected.
+[2026-04-05T19:52:34.479Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T19:52:34.499Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T19:52:34.499Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:05:38.251Z] [debug] [vite] connecting...
+[2026-04-05T20:05:38.470Z] [debug] [vite] connected.
+[2026-04-05T20:05:38.512Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:05:38.634Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:05:38.635Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:06:03.926Z] [debug] [vite] connecting...
+[2026-04-05T20:06:04.015Z] [debug] [vite] connected.
+[2026-04-05T20:06:04.154Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:06:04.222Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:06:04.222Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:08:14.381Z] [log] [vite] server connection lost. Polling for restart...
+[2026-04-05T20:08:16.727Z] [error] Failed to load resource: net::ERR_CONNECTION_REFUSED
+[2026-04-05T20:08:18.726Z] [debug] [vite] connecting...
+[2026-04-05T20:08:19.079Z] [debug] [vite] connected.
+[2026-04-05T20:08:20.465Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:08:20.559Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:08:20.559Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/features/doctor/components/LabOrders.tsx
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/features/doctor/components/Schedule.tsx
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/features/doctor/components/ClinicalNotes.tsx
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/features/doctor/components/Prescriptions.tsx
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/app/components/MedicalRecords.tsx
+[2026-04-05T20:09:45.339Z] [debug] [vite] hot updated: /src/features/doctor/components/Authorization.tsx
+[2026-04-05T20:10:09.921Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:10:09.921Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:10:09.922Z] [debug] [vite] hot updated: /src/features/doctor/components/LabOrders.tsx
+[2026-04-05T20:10:09.922Z] [debug] [vite] hot updated: /src/features/doctor/components/Schedule.tsx
+[2026-04-05T20:10:09.922Z] [debug] [vite] hot updated: /src/features/doctor/components/ClinicalNotes.tsx
+[2026-04-05T20:10:09.922Z] [debug] [vite] hot updated: /src/features/doctor/components/Prescriptions.tsx
+[2026-04-05T20:10:09.922Z] [debug] [vite] hot updated: /src/app/components/MedicalRecords.tsx
+[2026-04-05T20:10:09.922Z] [debug] [vite] hot updated: /src/features/doctor/components/Authorization.tsx
+[2026-04-05T20:10:18.766Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:10:18.766Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:10:18.766Z] [debug] [vite] hot updated: /src/features/doctor/components/LabOrders.tsx
+[2026-04-05T20:10:18.768Z] [debug] [vite] hot updated: /src/features/doctor/components/Schedule.tsx
+[2026-04-05T20:10:18.768Z] [debug] [vite] hot updated: /src/features/doctor/components/ClinicalNotes.tsx
+[2026-04-05T20:10:18.768Z] [debug] [vite] hot updated: /src/features/doctor/components/Prescriptions.tsx
+[2026-04-05T20:10:18.768Z] [debug] [vite] hot updated: /src/app/components/MedicalRecords.tsx
+[2026-04-05T20:10:18.776Z] [debug] [vite] hot updated: /src/features/doctor/components/Authorization.tsx
+[2026-04-05T20:15:38.244Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:15:38.244Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:15:38.244Z] [debug] [vite] hot updated: /src/features/doctor/components/LabOrders.tsx
+[2026-04-05T20:15:38.244Z] [debug] [vite] hot updated: /src/features/doctor/components/Schedule.tsx
+[2026-04-05T20:15:38.244Z] [debug] [vite] hot updated: /src/features/doctor/components/ClinicalNotes.tsx
+[2026-04-05T20:15:38.244Z] [debug] [vite] hot updated: /src/features/doctor/components/Prescriptions.tsx
+[2026-04-05T20:16:06.093Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:16:06.093Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:16:12.231Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:16:12.231Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:16:12.617Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:16:12.617Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:16:21.389Z] [debug] [vite] hot updated: /src/app/components/Notes.tsx
+[2026-04-05T20:16:21.389Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:18:39.012Z] [debug] [vite] connecting...
+[2026-04-05T20:18:39.112Z] [debug] [vite] connected.
+[2026-04-05T20:18:39.362Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:18:39.452Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:18:39.452Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:20:43.592Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:20:43.592Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:20:43.592Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:20:44.019Z] [debug] [vite] connecting...
+[2026-04-05T20:20:44.051Z] [debug] [vite] connected.
+[2026-04-05T20:20:45.830Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:20:46.097Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:20:46.098Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:20:47.877Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:20:47.877Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:20:47.877Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:20:48.084Z] [debug] [vite] connecting...
+[2026-04-05T20:20:48.132Z] [debug] [vite] connected.
+[2026-04-05T20:20:49.721Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:20:49.873Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:20:49.873Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:20:51.489Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:20:51.494Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:20:51.494Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:20:51.691Z] [debug] [vite] connecting...
+[2026-04-05T20:20:51.915Z] [debug] [vite] connected.
+[2026-04-05T20:20:52.781Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:20:52.995Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:20:53.045Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:21:03.698Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:21:03.699Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:21:03.701Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:03.927Z] [debug] [vite] connecting...
+[2026-04-05T20:21:03.939Z] [debug] [vite] connected.
+[2026-04-05T20:21:06.218Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:21:06.344Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:21:06.344Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:21:08.082Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:21:08.082Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:21:08.082Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:08.283Z] [debug] [vite] connecting...
+[2026-04-05T20:21:08.291Z] [debug] [vite] connected.
+[2026-04-05T20:21:09.925Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:21:10.031Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:21:10.031Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:21:29.414Z] [debug] [vite] hot updated: /src/features/doctor/DoctorApp.tsx
+[2026-04-05T20:21:29.414Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:40.985Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorHeader.tsx
+[2026-04-05T20:21:40.985Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:41.143Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorHeader.tsx
+[2026-04-05T20:21:41.143Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:45.999Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorHeader.tsx
+[2026-04-05T20:21:45.999Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:51.208Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorHeader.tsx
+[2026-04-05T20:21:51.208Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:21:57.857Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorHeader.tsx
+[2026-04-05T20:21:57.857Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:22:01.979Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T20:22:01.979Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:22:05.623Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T20:22:05.623Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:22:09.801Z] [debug] [vite] hot updated: /src/features/doctor/components/DoctorDashboard.tsx
+[2026-04-05T20:22:09.801Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:23:03.915Z] [debug] [vite] hot updated: /src/features/doctor/components/Patients.tsx
+[2026-04-05T20:23:03.915Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:23:10.492Z] [debug] [vite] hot updated: /src/app/components/Sidebar.tsx
+[2026-04-05T20:23:10.494Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:23:45.456Z] [debug] [vite] hot updated: /src/features/patient/PatientApp.tsx
+[2026-04-05T20:23:45.456Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:23:49.663Z] [debug] [vite] hot updated: /src/features/patient/PatientApp.tsx
+[2026-04-05T20:23:49.663Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:25:39.727Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:25:39.727Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:25:39.727Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:25:40.167Z] [debug] [vite] connecting...
+[2026-04-05T20:25:40.208Z] [debug] [vite] connected.
+[2026-04-05T20:25:43.332Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:25:43.513Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:25:43.514Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:25:45.887Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:25:45.887Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:25:45.887Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:25:46.027Z] [debug] [vite] connecting...
+[2026-04-05T20:25:46.275Z] [debug] [vite] connected.
+[2026-04-05T20:25:48.432Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:25:48.616Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:25:48.616Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:26:07.861Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:26:07.861Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:26:07.861Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:26:07.874Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:26:07.874Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:26:07.874Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:26:08.089Z] [debug] [vite] connecting...
+[2026-04-05T20:26:08.099Z] [debug] [vite] connected.
+[2026-04-05T20:26:10.319Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:26:10.447Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:26:10.448Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:26:13.111Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:26:13.111Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:26:13.111Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:26:14.166Z] [debug] [vite] connecting...
+[2026-04-05T20:26:14.547Z] [debug] [vite] connected.
+[2026-04-05T20:26:15.513Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:26:15.627Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:26:15.627Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:26:16.920Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:26:16.920Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:26:16.920Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:26:17.046Z] [debug] [vite] connecting...
+[2026-04-05T20:26:17.055Z] [debug] [vite] connected.
+[2026-04-05T20:26:18.711Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:26:18.839Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:26:18.839Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:26:21.036Z] [debug] [vite] invalidate /src/app/context/AppContext.tsx: Could not Fast Refresh ("useApp" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-04-05T20:26:21.036Z] [debug] [vite] hot updated: /src/app/context/AppContext.tsx
+[2026-04-05T20:26:21.037Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:26:21.152Z] [debug] [vite] connecting...
+[2026-04-05T20:26:21.191Z] [debug] [vite] connected.
+[2026-04-05T20:26:22.607Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:26:22.729Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:26:22.729Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:26:41.336Z] [debug] [vite] hot updated: /src/features/patient/PatientApp.tsx
+[2026-04-05T20:26:41.336Z] [debug] [vite] hot updated: /src/styles/index.css
+[2026-04-05T20:28:06.987Z] [debug] [vite] connecting...
+[2026-04-05T20:28:07.109Z] [debug] [vite] connected.
+[2026-04-05T20:28:07.386Z] [info] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+[2026-04-05T20:28:07.544Z] [warning] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+[2026-04-05T20:28:07.544Z] [warning] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+[2026-04-05T20:59:20.550Z] [log] [vite] server connection lost. Polling for restart...
+[2026-04-05T20:59:20.576Z] [error] Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+[2026-04-05T20:59:21.394Z] [error] Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
