@@ -20,7 +20,7 @@ export function Header() {
           </div>
         </div>
         <div>
-          <h1 className="text-foreground">HealthPortal</h1>
+          <h1 className="text-foreground">HealthVault</h1>
           <p className="text-sm text-muted-foreground">Your health, simplified</p>
         </div>
       </div>

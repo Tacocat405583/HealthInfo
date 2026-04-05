@@ -111,7 +111,7 @@ const records: MedicalRecord[] = [
 
 function buildDownloadContent(record: MedicalRecord): string {
   const lines = [
-    `HEALTHPORTAL — MEDICAL RECORD`,
+    `HEALTHVAULT — MEDICAL RECORD`,
     `================================`,
     ``,
     `Record:    ${record.title}`,
