@@ -1,4 +1,4 @@
-# HealthPortal
+# HealthVault
 
 A modern patient health portal built for PantherHacks. HealthPortal gives patients a clear, accessible view of their medical records while giving doctors the tools to manage patients, review lab results, handle prescriptions, and control record access — all in one place.
 
