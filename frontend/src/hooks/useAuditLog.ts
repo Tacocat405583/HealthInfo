@@ -25,8 +25,10 @@ export function useAuditLog(patientAddress: string | null) {
     queryFn: async (): Promise<AuditEvent[]> => {
       if (!svc || !patientAddress) return []
       const events = await svc.queryAuditEvents(patientAddress)
-      // Return newest first for display
-      return events.reverse()
+      // Non-mutating reverse: React Query caches the returned array and
+      // mutating it via Array#reverse would break referential equality checks
+      // for any other consumer that holds the same reference.
+      return [...events].reverse()
     },
   })
 }
@@ -54,7 +56,10 @@ export function describeAuditEvent(event: AuditEvent): string {
   const categoryName = event.category !== undefined
     ? RecordCategory[event.category]
     : 'unknown category'
-  const short = (addr: string) => `${addr.slice(0, 6)}…${addr.slice(-4)}`
+  // When actor is missing, render a clear placeholder rather than an awkward
+  // standalone ellipsis (slicing "" yields empty strings).
+  const short = (addr: string | undefined | null) =>
+    addr ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : 'unknown actor'
 
   switch (event.type) {
     case 'PatientRegistered':
@@ -63,16 +68,16 @@ export function describeAuditEvent(event: AuditEvent): string {
       return `Provider registered`
     case 'AccessGranted': {
       const levelName = event.level !== undefined ? AccessLevel[event.level] : ''
-      return `${short(event.actor ?? '')} granted ${levelName} access to ${categoryName}`
+      return `${short(event.actor)} granted ${levelName} access to ${categoryName}`
     }
     case 'AccessRevoked':
-      return `Access to ${categoryName} revoked from ${short(event.actor ?? '')}`
+      return `Access to ${categoryName} revoked from ${short(event.actor)}`
     case 'RecordAdded':
-      return `New ${categoryName} record added by ${short(event.actor ?? '')}`
+      return `New ${categoryName} record added by ${short(event.actor)}`
     case 'RecordUpdated':
-      return `${categoryName} record updated by ${short(event.actor ?? '')}`
+      return `${categoryName} record updated by ${short(event.actor)}`
     case 'RecordAccessed':
-      return `${categoryName} record accessed by ${short(event.actor ?? '')}`
+      return `${categoryName} record accessed by ${short(event.actor)}`
     default:
       return event.type
   }

@@ -42,21 +42,29 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   const initProvider = useCallback(async () => {
     const ethereum = (window as { ethereum?: ethers.Eip1193Provider }).ethereum
-    if (!ethereum) return
+    if (!ethereum) return undefined
 
-    const bp = new ethers.BrowserProvider(ethereum)
-    setProvider(bp)
+    // Wrap the full init sequence: any of these can reject (user rejection,
+    // RPC timeout) and an unhandled rejection here would otherwise escape all
+    // the way to window.onunhandledrejection.
+    try {
+      const bp = new ethers.BrowserProvider(ethereum)
+      setProvider(bp)
 
-    const network = await bp.getNetwork()
-    setChainId(Number(network.chainId))
+      const network = await bp.getNetwork()
+      setChainId(Number(network.chainId))
 
-    const accounts = await bp.listAccounts()
-    if (accounts.length > 0) {
-      setSigner(accounts[0])
-      setAddress(accounts[0].address)
+      const accounts = await bp.listAccounts()
+      if (accounts.length > 0) {
+        setSigner(accounts[0])
+        setAddress(accounts[0].address)
+      }
+
+      return bp
+    } catch (err) {
+      console.error('Failed to initialize Web3 provider:', err)
+      return undefined
     }
-
-    return bp
   }, [])
 
   useEffect(() => {
@@ -73,9 +81,11 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         setAddress(null)
         setSigner(null)
       } else {
-        setAddress(accounts[0])
-        // Re-init to get new signer
-        initProvider()
+        // Let initProvider be the single source of truth for address+signer,
+        // so we don't race: a direct setAddress(accounts[0]) here followed by
+        // an async initProvider() left a window where signer still pointed at
+        // the previous account.
+        void initProvider()
       }
     }
 
