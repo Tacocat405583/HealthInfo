@@ -28,6 +28,7 @@ import { recallSignature, rememberSignature } from '../services/sessionCache'
 import { secp256k1 } from '@noble/curves/secp256k1'
 import { bytesToHex } from '@noble/hashes/utils'
 import { useWeb3 } from './Web3Provider'
+import { useFaceAuthContext } from './FaceAuthProvider'
 import type { ECIESKeypair } from '../types/crypto'
 
 interface EncryptionState {
@@ -55,6 +56,7 @@ const EncryptionContext = createContext<EncryptionState | null>(null)
 
 export function EncryptionProvider({ children }: { children: React.ReactNode }) {
   const { address, signer } = useWeb3()
+  const { isVerified: faceVerified } = useFaceAuthContext()
   const [keypair, setKeypair] = useState<ECIESKeypair | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
   const [initError, setInitError] = useState<string | null>(null)
@@ -79,6 +81,10 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
   const initKeys = useCallback(async () => {
     if (!address || !signer) {
       setInitError('Wallet not connected')
+      return
+    }
+    if (!faceVerified) {
+      setInitError('Face verification required before unlocking encryption keys')
       return
     }
 
@@ -116,18 +122,18 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setIsInitializing(false)
     }
-  }, [address, signer])
+  }, [address, signer, faceVerified])
 
-  // Auto-init the ECIES keypair when the wallet connects.
+  // Auto-init the ECIES keypair the moment face verification succeeds.
   // initLockRef prevents StrictMode's double-invoke from firing two
   // signMessage prompts in development.
   useEffect(() => {
-    if (!address || !signer || keypair || isInitializing || initLockRef.current) return
+    if (!faceVerified || keypair || isInitializing || initLockRef.current) return
     initLockRef.current = true
     void initKeys().finally(() => {
       initLockRef.current = false
     })
-  }, [address, signer, keypair, isInitializing, initKeys])
+  }, [faceVerified, keypair, isInitializing, initKeys])
 
   const clearKeys = useCallback(async () => {
     if (address) {
