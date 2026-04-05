@@ -214,6 +214,9 @@ export function FaceAuthGate() {
         {!unlockingKeys && fa.status === FaceAuthStatus.AwaitingFaceVerify && (
           <div className="mt-6">
             <p className="text-sm text-gray-600">Look at the camera to verify your face.</p>
+            <p className="mt-1 text-xs text-gray-500">
+              Please make sure your face is fully visible before logging in.
+            </p>
             <button
               onClick={handleVerify}
               disabled={!!cameraError}
