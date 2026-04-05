@@ -1,4 +1,4 @@
-import { Home, Users, Calendar, TestTube, Pill, MessageSquare, StickyNote } from 'lucide-react';
+import { Home, Users, Calendar, TestTube, Pill, ShieldCheck, MessageSquare, StickyNote } from 'lucide-react';
 
 const menuItems = [
   { icon: Home,          label: 'Dashboard',      id: 'dashboard' },
@@ -6,6 +6,7 @@ const menuItems = [
   { icon: Calendar,      label: 'Schedule',       id: 'schedule' },
   { icon: TestTube,      label: 'Lab Orders',     id: 'labs' },
   { icon: Pill,          label: 'Prescriptions',  id: 'prescriptions' },
+  { icon: ShieldCheck,   label: 'Authorization',  id: 'authorization' },
   { icon: MessageSquare, label: 'Messages',       id: 'messages', badge: 5 },
   { icon: StickyNote,    label: 'Clinical Notes', id: 'notes' },
 ];

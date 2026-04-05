@@ -1,6 +1,49 @@
-import { Activity, Calendar, Clock, Heart, TrendingUp } from 'lucide-react';
+import { Activity, Calendar, Clock, Heart, TrendingUp, Users, Plus } from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from './ui/dialog';
+import { Button } from './ui/button';
+import { Textarea } from './ui/textarea';
+import { Input } from './ui/input';
 
 export function Dashboard() {
+  const { currentPatientId, patients, doctors, addMedicationRequest } = useApp();
+  const [showMedRequestDialog, setShowMedRequestDialog] = useState(false);
+  const [medicationName, setMedicationName] = useState('');
+  const [medicationReason, setMedicationReason] = useState('');
+
+  const currentPatient = patients.find(p => p.id === currentPatientId);
+  const patientDoctors = currentPatient?.doctors
+    .map(docId => doctors.find(d => d.id === docId))
+    .filter(Boolean) || [];
+
+  const handleSubmitMedRequest = () => {
+    if (currentPatient && patientDoctors.length > 0) {
+      // Assign to primary care doctor (first in list)
+      const primaryDoctor = patientDoctors[0];
+      if (primaryDoctor) {
+        addMedicationRequest({
+          patientId: currentPatientId,
+          patientName: currentPatient.name,
+          medication: medicationName,
+          reason: medicationReason,
+          assignedDoctorId: primaryDoctor.id,
+        });
+
+        setShowMedRequestDialog(false);
+        setMedicationName('');
+        setMedicationReason('');
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -50,6 +93,36 @@ export function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* My Care Team */}
+        <div className="bg-card border border-border rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-foreground flex items-center gap-2">
+              <Users className="w-5 h-5" />
+              My Care Team
+            </h3>
+          </div>
+          <div className="space-y-3">
+            {patientDoctors.map((doctor: any) => (
+              <div key={doctor.id} className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-foreground font-medium">{doctor.name}</p>
+                  <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setShowMedRequestDialog(true)}
+            className="w-full mt-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Request Medication
+          </button>
+        </div>
+
         <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-foreground mb-4">Recent Test Results</h3>
           <div className="space-y-4">
@@ -76,50 +149,60 @@ export function Dashboard() {
             View all results
           </button>
         </div>
-
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-foreground mb-4">Upcoming Appointments</h3>
-          <div className="space-y-4">
-            {[
-              { doctor: 'Dr. Sarah Martinez', specialty: 'Cardiology', date: 'Apr 5, 2026', time: '2:00 PM' },
-              { doctor: 'Dr. James Chen', specialty: 'Primary Care', date: 'Apr 12, 2026', time: '10:30 AM' },
-              { doctor: 'Dr. Emily Roberts', specialty: 'Dermatology', date: 'Apr 18, 2026', time: '3:15 PM' },
-            ].map((appt, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-muted rounded-lg">
-                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 mt-1">
-                  <Calendar className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-foreground">{appt.doctor}</p>
-                  <p className="text-sm text-muted-foreground">{appt.specialty}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Clock className="w-3 h-3 text-muted-foreground" />
-                    <p className="text-xs text-muted-foreground">{appt.date} at {appt.time}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button className="w-full mt-4 py-2 px-4 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity">
-            Schedule new appointment
-          </button>
-        </div>
       </div>
 
-      <div className="bg-gradient-to-br from-primary to-secondary rounded-xl p-6 text-white">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="mb-2">Health Tip of the Day</h3>
-            <p className="text-white/90 mb-4">
-              Stay hydrated! Aim for 8 glasses of water daily to support your overall health and energy levels.
-            </p>
-            <button className="px-4 py-2 bg-white text-primary rounded-lg hover:shadow-lg transition-shadow">
-              Learn more
-            </button>
+      {/* Medication Request Dialog */}
+      <Dialog open={showMedRequestDialog} onOpenChange={setShowMedRequestDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Request Medication</DialogTitle>
+            <DialogDescription>
+              Submit a request to your primary care physician for a medication prescription or refill.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Medication Name
+              </label>
+              <Input
+                placeholder="e.g., Lisinopril 10mg"
+                value={medicationName}
+                onChange={(e) => setMedicationName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-foreground mb-2 block">
+                Reason for Request
+              </label>
+              <Textarea
+                placeholder="Explain why you need this medication..."
+                value={medicationReason}
+                onChange={(e) => setMedicationReason(e.target.value)}
+                className="min-h-[100px]"
+              />
+            </div>
           </div>
-          <Activity className="w-16 h-16 text-white/20" />
-        </div>
-      </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowMedRequestDialog(false);
+                setMedicationName('');
+                setMedicationReason('');
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmitMedRequest}
+              disabled={!medicationName.trim() || !medicationReason.trim()}
+            >
+              Submit Request
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
