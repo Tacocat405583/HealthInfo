@@ -13,6 +13,7 @@
  *   // record.objectUrl is a Blob URL ready for <img> / <iframe> / download link
  */
 
+import { useEffect, useRef } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWeb3 } from '../providers/Web3Provider'
 import { useEncryption } from '../providers/EncryptionProvider'
@@ -48,7 +49,15 @@ export function useRecord(
   const { keypair } = useEncryption()
   const { address } = useWeb3()
 
-  const queryKey = ['record', patientAddress, category, options.asProvider ? 'provider' : 'patient']
+  // Include providerAddress in the key so two different providers don't share
+  // a cache entry for the same patient/category (each holds its own wrapped DEK).
+  const queryKey = [
+    'record',
+    patientAddress,
+    category,
+    options.asProvider ? 'provider' : 'patient',
+    options.providerAddress ?? null,
+  ]
 
   const query = useQuery({
     queryKey,
@@ -63,9 +72,15 @@ export function useRecord(
       // Fetch encrypted blob from IPFS
       const payload = await fetchFromIPFS(pointer.cid)
 
-      // Determine which wrapped DEK to use
+      // Determine which wrapped DEK to use. Fail fast if the caller asked for
+      // the provider path without supplying providerAddress — otherwise we'd
+      // silently fall back to the patient DEK and fail deep inside unwrapDEK
+      // with a cryptic GCM auth error.
       let wrappedDEK: string
-      if (options.asProvider && options.providerAddress) {
+      if (options.asProvider) {
+        if (!options.providerAddress) {
+          throw new Error('providerAddress is required when asProvider is true')
+        }
         wrappedDEK = await svc.getProviderWrappedDEK(patientAddress, options.providerAddress, category)
       } else {
         wrappedDEK = pointer.encryptedDEK
@@ -93,8 +108,23 @@ export function useRecord(
     },
   })
 
-  // Revoke object URLs when the query result changes
-  // (in a real app you'd do this in a useEffect cleanup)
+  // Revoke the previous blob URL whenever a new one is produced, and on unmount.
+  // Without this, each refetch leaks a blob URL entry; for large decrypted
+  // records this can quickly accumulate megabytes of retained memory.
+  const prevObjectUrlRef = useRef<string | null>(null)
+  useEffect(() => {
+    const current = query.data?.objectUrl ?? null
+    if (prevObjectUrlRef.current && prevObjectUrlRef.current !== current) {
+      URL.revokeObjectURL(prevObjectUrlRef.current)
+    }
+    prevObjectUrlRef.current = current
+    return () => {
+      if (prevObjectUrlRef.current) {
+        URL.revokeObjectURL(prevObjectUrlRef.current)
+        prevObjectUrlRef.current = null
+      }
+    }
+  }, [query.data?.objectUrl])
 
   return {
     record: query.data ?? null,

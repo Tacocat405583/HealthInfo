@@ -43,8 +43,14 @@ export function useWallet() {
   // in a production build can NEVER silently disable the network check
   // (would otherwise let users interact with contracts on the wrong chain).
   const bypassNetworkCheck = EXPECTED_CHAIN_ID === 0 && import.meta.env.DEV
+  // Guard against the brief window where address has loaded but chainId is
+  // still null — otherwise `null !== EXPECTED_CHAIN_ID` evaluates to true and
+  // users see a flash of "wrong network" before the chainId settles.
   const wrongNetwork =
-    !bypassNetworkCheck && isConnected && web3.chainId !== EXPECTED_CHAIN_ID
+    !bypassNetworkCheck &&
+    isConnected &&
+    web3.chainId != null &&
+    web3.chainId !== EXPECTED_CHAIN_ID
 
   /** Request MetaMask to switch to the expected network, adding it first if needed. */
   async function switchNetwork() {
@@ -57,13 +63,19 @@ export function useWallet() {
         params: [{ chainId: chainIdHex }],
       })
     } catch (err) {
-      // Error 4902 = chain not added to MetaMask yet — add it automatically
-      if ((err as { code?: number }).code === 4902) {
+      const code = (err as { code?: number }).code
+      // Error 4902 = chain not added to MetaMask yet — add it automatically.
+      if (code === 4902) {
         const params = HARDHAT_NETWORK_PARAMS[EXPECTED_CHAIN_ID]
         if (params) {
           await ethereum.request({ method: 'wallet_addEthereumChain', params: [params] })
         }
+        return
       }
+      // Anything else (including 4001 = user rejected) needs to surface to the
+      // caller — swallowing it silently makes the "switch network" button look
+      // broken from the user's perspective.
+      throw err
     }
   }
 

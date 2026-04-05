@@ -273,10 +273,14 @@ export function FaceAuthGate() {
                   Recover from IPFS
                 </button>
               )}
-              {/* Debug bypass — only shown with ?dev=true so lockout cannot be
-                  skipped in production (defeats anti-brute-force purpose). */}
+              {/* Debug bypass — gated on both dev build AND exact ?dev=true param.
+                  Using URLSearchParams avoids substring false matches (e.g. ?nodev=true
+                  would previously hit `includes('dev=true')`) and import.meta.env.DEV
+                  ensures a production bundle can never render this button even if a
+                  user crafts the query string manually (defeats anti-brute-force). */}
               {typeof window !== 'undefined' &&
-                window.location.search.includes('dev=true') && (
+                import.meta.env.DEV &&
+                new URLSearchParams(window.location.search).get('dev') === 'true' && (
                   <button
                     onClick={fa.unlock}
                     className="text-xs text-red-600 underline"
@@ -305,6 +309,7 @@ export function FaceAuthGate() {
               value={manualCidValue}
               onChange={(e) => setManualCidValue(e.target.value)}
               placeholder="bafy..."
+              aria-label="IPFS CID for face recovery"
               className="mt-2 w-full rounded border border-gray-300 px-3 py-2 text-sm font-mono"
             />
             <div className="mt-3 flex gap-2">
@@ -328,9 +333,10 @@ export function FaceAuthGate() {
           </div>
         )}
 
-        {/* ── Debug: reset face (only show with ?dev=true) ────────────────── */}
+        {/* ── Debug: reset face (only show with ?dev=true in dev build) ─── */}
         {typeof window !== 'undefined' &&
-          window.location.search.includes('dev=true') &&
+          import.meta.env.DEV &&
+          new URLSearchParams(window.location.search).get('dev') === 'true' &&
           fa.status !== FaceAuthStatus.Idle && (
             <button
               onClick={() => void fa.resetFace()}

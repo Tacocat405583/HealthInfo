@@ -5,7 +5,13 @@
  * Wraps the raw encryption service functions with the current user's keypair.
  *
  * Usage:
- *   const { encryptForUpload, decryptFromIPFS, wrapDEKForProvider } = useEncryption()
+ *   const {
+ *     encryptForPatient,
+ *     rewrapDEKForProvider,
+ *     decryptAsPatient,
+ *     decryptAsProvider,
+ *     encryptForUpdate,
+ *   } = useEncryptionOps()
  */
 
 import { useEncryption as useEncryptionContext } from '../providers/EncryptionProvider'

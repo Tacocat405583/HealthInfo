@@ -2,7 +2,10 @@
  * useContract.ts
  *
  * Returns a HealthVaultService instance for the connected wallet and chain.
- * Returns null if the wallet is not connected or the chain is not supported.
+ * Returns null when no chainId is available yet (e.g., wallet not connected).
+ * NOTE: chain support is enforced at the `getContractAddress` call inside
+ * `createHealthVaultService`, which throws for unknown chains — if you need a
+ * soft "unsupported chain" fallback, guard the caller side explicitly.
  *
  * Usage:
  *   const svc = useContract()

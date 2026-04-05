@@ -74,18 +74,20 @@ export function useUnderstandRecord(
     queryFn: async (): Promise<RecordInsight> => {
       if (!record) throw new Error('No record provided')
 
-      // Extract plain text from the record
-      const text = await extractText(record)
-      if (!text) {
-        // Unsupported file type (image, binary)
-        return {
-          summary: ['This file type cannot be analyzed automatically.'],
-          glossary: [],
-          isFallback: true,
-        }
-      }
-
+      // Wrap the ENTIRE flow (extraction + LLM call + parse) so any unexpected
+      // exception — including extractText throwing on an unsupported codec —
+      // converts to a fallback instead of propagating as an unhandled rejection.
       try {
+        const text = await extractText(record)
+        if (!text) {
+          // Unsupported file type (image, binary)
+          return {
+            summary: ['This file type cannot be analyzed automatically.'],
+            glossary: [],
+            isFallback: true,
+          }
+        }
+
         const system = buildSystemPrompt(record.category)
         const user = buildUserPrompt(text)
         const raw = await chat({ system, user })
@@ -102,7 +104,16 @@ export function useUnderstandRecord(
 
         return { ...parsed, isFallback: false }
       } catch (err) {
-        console.error('AI summary failed, using fallback:', err)
+        // HIPAA/GDPR: the error object may carry the prompt or decrypted
+        // record content (many LLM clients embed the request body in error
+        // messages). Log only a safe summary in production; keep full details
+        // in dev where devtools stay on the developer's machine.
+        const safeMsg = err instanceof Error ? err.message : 'unknown error'
+        if (import.meta.env.DEV) {
+          console.error('AI summary failed, using fallback:', err)
+        } else {
+          console.error(`AI summary failed, using fallback: ${safeMsg}`)
+        }
         return { ...getFallback(record.category), isFallback: true }
       }
     },

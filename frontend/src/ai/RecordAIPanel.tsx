@@ -106,8 +106,11 @@ export function RecordAIPanel({ record }: Props) {
       {/* ─── State 2: Loading (first fetch OR refetch) ──────────────── */}
       {showSkeleton && <SkeletonBullets />}
 
-      {/* ─── State 3: Error ─────────────────────────────────────────── */}
-      {consented && !showSkeleton && error && (
+      {/* ─── State 3: Error (only when we have no stale data to show) ── */}
+      {/* React Query keeps previous `insight` during a failing refetch, so
+          without the `!insight` guard we could render both the error banner
+          and the stale success content simultaneously. */}
+      {consented && !showSkeleton && error && !insight && (
         <div className="flex flex-col gap-3">
           <p className="text-sm text-red-600">Something went wrong. Please try again.</p>
           <button
