@@ -13,7 +13,7 @@
  *   const { keypair, publicKeyHex, initKeys, isReady } = useEncryption()
  */
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import {
   deriveKeypairFromSignature,
   keyDerivationMessage,
@@ -24,9 +24,11 @@ import {
   savePrivateKey,
   removePrivateKey,
 } from '../services/keystore'
+import { recallSignature, rememberSignature } from '../services/sessionCache'
 import { secp256k1 } from '@noble/curves/secp256k1'
 import { bytesToHex } from '@noble/hashes/utils'
 import { useWeb3 } from './Web3Provider'
+import { useFaceAuthContext } from './FaceAuthProvider'
 import type { ECIESKeypair } from '../types/crypto'
 
 interface EncryptionState {
@@ -54,29 +56,37 @@ const EncryptionContext = createContext<EncryptionState | null>(null)
 
 export function EncryptionProvider({ children }: { children: React.ReactNode }) {
   const { address, signer } = useWeb3()
+  const { isVerified: faceVerified } = useFaceAuthContext()
   const [keypair, setKeypair] = useState<ECIESKeypair | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
   const [initError, setInitError] = useState<string | null>(null)
+  /** Guard against a StrictMode double-invoke of the auto-init effect. */
+  const initLockRef = useRef(false)
 
-  // When the wallet address changes, try to load from IndexedDB without re-signing
+  // When the wallet address changes, clear the old keypair
   useEffect(() => {
     if (!address || !signer) {
       setKeypair(null)
+      initLockRef.current = false
       return
     }
 
-    // We need a recent signature to decrypt the stored key.
-    // If nothing is stored yet, wait for explicit initKeys() call.
-    hasStoredKey(address).then((has) => {
-      if (!has) return // user will call initKeys() manually
-      // Note: We can't auto-load without the signature.
-      // The user must call initKeys() or we prompt on page load.
-    })
+    // We can't auto-load from IndexedDB without a signature. Wait for the
+    // user to pass face auth — initKeys will then fire automatically via
+    // the effect below, reusing the signature that FaceAuthProvider already
+    // obtained during face verification.
+    hasStoredKey(address) // fire-and-forget, just for parity with old behavior
   }, [address, signer])
 
   const initKeys = useCallback(async () => {
     if (!address || !signer) {
       setInitError('Wallet not connected')
+      return
+    }
+    // Face auth is a hard gate — ECIES initialization is blocked until the
+    // user has completed the second factor.
+    if (!faceVerified) {
+      setInitError('Face verification required before unlocking encryption keys')
       return
     }
 
@@ -86,8 +96,14 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
     try {
       const message = keyDerivationMessage(address)
 
-      // Check if we have a cached key — try to load it with a fresh signature
-      const signature = await signer.signMessage(message)
+      // Try to reuse the signature FaceAuthProvider already collected.
+      // If that's not available (e.g. first-enroll path skipped the local
+      // decrypt step), fall back to prompting MetaMask for a fresh signature.
+      let signature = recallSignature(address)
+      if (!signature) {
+        signature = await signer.signMessage(message)
+        rememberSignature(address, signature)
+      }
       const kp = deriveKeypairFromSignature(signature)
 
       // Try to load from IndexedDB first (avoids generating a new keypair)
@@ -111,7 +127,19 @@ export function EncryptionProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setIsInitializing(false)
     }
-  }, [address, signer])
+  }, [address, signer, faceVerified])
+
+  // Auto-init the ECIES keypair the moment face verification succeeds.
+  // This gives the user a single-touch login: pass face → keys unlock → app
+  // mounts. The initLockRef prevents StrictMode's double-invoke from firing
+  // two signMessage prompts in development.
+  useEffect(() => {
+    if (!faceVerified || keypair || isInitializing || initLockRef.current) return
+    initLockRef.current = true
+    void initKeys().finally(() => {
+      initLockRef.current = false
+    })
+  }, [faceVerified, keypair, isInitializing, initKeys])
 
   const clearKeys = useCallback(async () => {
     if (address) {

@@ -37,7 +37,14 @@ export function useWallet() {
     : null
 
   const isConnected = Boolean(web3.address)
-  const wrongNetwork = isConnected && web3.chainId !== EXPECTED_CHAIN_ID
+  // When VITE_CHAIN_ID=0, bypass the network check — useful for face-auth
+  // smoke tests where you just need a signer and don't care which chain
+  // MetaMask is on. Gated by import.meta.env.DEV so a stray VITE_CHAIN_ID=0
+  // in a production build can NEVER silently disable the network check
+  // (would otherwise let users interact with contracts on the wrong chain).
+  const bypassNetworkCheck = EXPECTED_CHAIN_ID === 0 && import.meta.env.DEV
+  const wrongNetwork =
+    !bypassNetworkCheck && isConnected && web3.chainId !== EXPECTED_CHAIN_ID
 
   /** Request MetaMask to switch to the expected network, adding it first if needed. */
   async function switchNetwork() {
